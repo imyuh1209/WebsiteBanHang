@@ -1,0 +1,111 @@
+.d-flex {
+    display: flex;
+}
+
+.btn {
+    display: inline-block;
+    font-weight: 400;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    user-select: none;
+    border: 1px solid transparent;
+    padding: 0.375rem 0.75rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    border-radius: 0.25rem;
+    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.btn-outline-dark {
+    color: #343a40;
+    background-color: transparent;
+    background-image: none;
+    border-color: #343a40;
+}
+
+.btn-outline-dark:hover {
+    color: #fff;
+    background-color: #343a40;
+    border-color: #343a40;
+}
+
+.bi-cart-fill {
+    display: inline-block;
+    font-size: 1.25em;
+    line-height: 1;
+    vertical-align: middle;
+}
+
+.me-1 {
+    margin-right: 0.25rem !important;
+}
+
+/* Hiệu ứng khi hover vào nút giỏ hàng */
+.btn-cart:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Hiệu ứng khi click vào nút giỏ hàng */
+.btn-cart:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Style cho badge hiển thị số lượng sản phẩm */
+.cart-count {
+    position: relative;
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 0.25rem 0.5rem;
+}
+
+.ms-1 {
+    margin-left: 0.25rem !important;
+}
+
+.rounded-pill {
+    border-radius: 50rem !important;
+}
+
+/* Hiệu ứng sản phẩm bay vào giỏ hàng */
+.flying-item {
+    position: fixed;
+    z-index: 9999;
+    width: 50px;
+    height: 50px;
+    background-color: #fff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    pointer-events: none;
+    transition: all 1s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+}
+
+.flying-item i {
+    font-size: 1.5rem;
+    color: #198754;
+}
+
+/* Hiệu ứng nhấp nháy giỏ hàng khi sản phẩm bay vào */
+.cart-highlight {
+    animation: cart-pulse 0.7s ease;
+}
+
+@keyframes cart-pulse {
+    0% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(25, 135, 84, 0.7);
+    }
+    50% {
+        transform: scale(1.1);
+        box-shadow: 0 0 0 10px rgba(25, 135, 84, 0);
+    }
+    100% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(25, 135, 84, 0);
+    }
+}

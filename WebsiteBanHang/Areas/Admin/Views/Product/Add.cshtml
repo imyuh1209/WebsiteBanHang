@@ -1,0 +1,143 @@
+﻿@model WebsiteBanHang.Models.Product
+
+@{
+    ViewData["Title"] = "Thêm sản phẩm mới";
+}
+
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-lg rounded-4 border-0 add-product-card">
+                <div class="card-header bg-primary-gradient text-white text-center rounded-top-4 py-3">
+                    <h2 class="mb-0 fw-bold">Thêm sản phẩm mới</h2>
+                </div>
+                <div class="card-body p-4">
+                    <form asp-action="Add" method="post" enctype="multipart/form-data">
+                        <div class="mb-3">
+                            <label asp-for="Name" class="form-label fw-semibold text-primary-dark"></label>
+                            <input asp-for="Name" class="form-control border-primary-custom" />
+                            <span asp-validation-for="Name" class="text-danger small"></span>
+                        </div>
+                        <div class="mb-3">
+                            <label asp-for="Price" class="form-label fw-semibold text-primary-dark"></label>
+                            <div class="input-group">
+                                <span class="input-group-text text-primary-dark">$</span>
+                                <input asp-for="Price" class="form-control border-primary-custom" />
+                            </div>
+                            <span asp-validation-for="Price" class="text-danger small"></span>
+                        </div>
+                        <div class="mb-3">
+                            <label asp-for="Description" class="form-label fw-semibold text-primary-dark"></label>
+                            <textarea asp-for="Description" class="form-control border-primary-custom" rows="4"></textarea>
+                            <span asp-validation-for="Description" class="text-danger small"></span>
+                        </div>
+                        <div class="mb-3">
+                            <label asp-for="CategoryId" class="form-label fw-semibold text-primary-dark">Danh mục</label>
+                            <select asp-for="CategoryId" asp-items="ViewBag.Categories" class="form-select border-primary-custom"></select>
+                        </div>
+                        <div class="mb-4">
+                            <label asp-for="ImageUrl" class="form-label fw-semibold text-primary-dark">Ảnh sản phẩm</label>
+                            <input type="file" asp-for="ImageUrl" class="form-control border-primary-custom" />
+                        </div>
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                            <a asp-action="Index" class="btn btn-outline-secondary-custom fw-semibold">Quay lại</a>
+                            <button type="submit" class="btn btn-primary-custom fw-semibold">Thêm sản phẩm</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background-color: #f8faff; /* Consistent light blue background */
+        color: #343a40; /* Default text color */
+    }
+
+    /* Main Card Styling */
+    .add-product-card {
+        border-radius: 1rem;
+        box-shadow: 0 1rem 3rem rgba(0, 123, 255, 0.15) !important; /* Lighter blue shadow */
+        border: 1px solid #cce0ff !important; /* Light blue border */
+    }
+
+    /* Card Header */
+    .bg-primary-gradient {
+        background: linear-gradient(45deg, #007bff, #6a00ff) !important; /* Blue to purple gradient for header */
+        padding-top: 1rem !important;
+        padding-bottom: 1rem !important;
+    }
+
+    /* Form Labels */
+    .text-primary-dark {
+        color: #004085 !important; /* Darker blue for labels */
+    }
+
+    /* Form Inputs, Textareas, Selects */
+    .border-primary-custom {
+        border: 1.5px solid #007bff !important; /* Primary blue border */
+        border-radius: 0.4rem;
+        transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+        .border-primary-custom:focus {
+            border-color: #6a00ff !important; /* Purple on focus */
+            box-shadow: 0 0 0.5rem rgba(106, 0, 255, 0.25) !important; /* Purple shadow on focus */
+            outline: none;
+        }
+
+    /* Input Group Text (e.g., '$' sign) */
+    .input-group-text {
+        background-color: #e0efff !important; /* Very light blue background */
+        border-color: #007bff !important; /* Primary blue border */
+        color: #0056b3 !important; /* Darker blue text */
+        font-weight: 600;
+    }
+
+    /* Buttons */
+    .btn {
+        font-weight: 600;
+        border-radius: 0.4rem;
+        padding: 0.6rem 1.25rem;
+        transition: all 0.3s ease;
+    }
+
+    /* "Thêm sản phẩm" Button */
+    .btn-primary-custom {
+        background-color: #007bff; /* Primary blue */
+        border-color: #007bff;
+        color: white;
+        box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
+    }
+
+        .btn-primary-custom:hover {
+            background-color: #0056b3;
+            border-color: #0056b3;
+            box-shadow: 0 6px 18px rgba(0, 123, 255, 0.5);
+            transform: translateY(-1px);
+        }
+
+    /* "Quay lại" Button */
+    .btn-outline-secondary-custom {
+        color: #6c757d; /* Standard secondary gray */
+        border-color: #6c757d;
+        background-color: transparent;
+        box-shadow: 0 2px 5px rgba(108, 117, 125, 0.1);
+    }
+
+        .btn-outline-secondary-custom:hover {
+            background-color: #6c757d;
+            color: white;
+            border-color: #6c757d;
+            box-shadow: 0 4px 10px rgba(108, 117, 125, 0.3);
+            transform: translateY(-1px);
+        }
+
+    /* Validation text */
+    .text-danger {
+        font-size: 0.875em; /* Smaller font for validation messages */
+    }
+</style>

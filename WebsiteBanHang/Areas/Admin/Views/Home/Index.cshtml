@@ -1,0 +1,155 @@
+@{
+    ViewData["Title"] = "Trang chủ quản trị";
+}
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-12 mb-4">
+            <div class="card border-0 shadow-lg rounded-4 admin-dashboard-card">
+                <div class="card-body p-4">
+                    <h2 class="card-title text-primary-gradient fw-bold mb-4 pb-2 border-bottom border-purple-light">
+                       Admin Dashboard
+                    </h2>
+                    <p class="card-text fs-5 text-dark-blue">Chào mừng đến với khu vực quản trị website. Từ đây bạn có thể quản lý:</p>
+                    <div class="row mt-4 g-4">
+                        <div class="col-md-6">
+                            <div class="card h-100 border-0 shadow-sm hover-card module-card-product">
+                                <div class="card-body p-4">
+                                    <h5 class="card-title fw-bold text-success-custom">
+                                        <i class="bi bi-box me-2"></i> Sản phẩm
+                                    </h5>
+                                    <p class="card-text text-muted-custom">Quản lý danh sách sản phẩm, thêm, sửa, xóa sản phẩm.</p>
+                                    <a asp-area="Admin" asp-controller="Product" asp-action="Index" class="btn btn-outline-success-custom mt-3">
+                                        <i class="bi bi-arrow-right"></i> Đi đến quản lý sản phẩm
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card h-100 border-0 shadow-sm hover-card module-card-category">
+                                <div class="card-body p-4">
+                                    <h5 class="card-title fw-bold text-primary-custom">
+                                        <i class="bi bi-folder me-2"></i> Danh mục
+                                    </h5>
+                                    <p class="card-text text-muted-custom">Quản lý danh mục sản phẩm, thêm, sửa, xóa danh mục.</p>
+                                    <a asp-area="Admin" asp-controller="Categories" asp-action="Index" class="btn btn-outline-primary-custom mt-3">
+                                        <i class="bi bi-arrow-right"></i> Đi đến quản lý danh mục
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background-color: #f8faff; /* Consistent light blue background */
+    }
+
+    /* Main dashboard card */
+    .admin-dashboard-card {
+        border-radius: 1rem;
+        background-color: #fff;
+        box-shadow: 0 1rem 3rem rgba(0, 123, 255, 0.15) !important; /* Lighter blue shadow */
+        border: 1px solid #cce0ff !important; /* Light blue border */
+    }
+
+    /* Dashboard title */
+    .text-primary-gradient {
+        background: linear-gradient(45deg, #007bff, #6a00ff); /* Blue to purple gradient for title */
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        font-size: 2.2rem;
+        font-weight: 800;
+        text-shadow: 0 4px 10px rgba(0, 123, 255, 0.2);
+    }
+
+    .border-purple-light {
+        border-color: rgba(106, 0, 255, 0.2) !important; /* Light purple border for separation */
+    }
+
+    .text-dark-blue {
+        color: #004085 !important; /* Dark blue for main text */
+    }
+
+    /* Module cards (Sản phẩm, Danh mục) */
+    .hover-card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        border-radius: 0.75rem;
+        border: 1px solid #e0efff; /* Light blue border */
+        background-color: #fff;
+    }
+
+        .hover-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 25px rgba(0, 123, 255, 0.25) !important; /* Enhanced blue shadow on hover */
+            border-color: #a7d9f7; /* Slightly darker blue border on hover */
+        }
+
+    /* Specific module card styling */
+    .module-card-product {
+        border-left: 5px solid #28a745; /* Green accent for products */
+    }
+
+    .module-card-category {
+        border-left: 5px solid #007bff; /* Primary blue accent for categories */
+    }
+
+    /* Card titles inside modules */
+    .text-success-custom {
+        color: #28a745 !important; /* Standard success green */
+    }
+
+    .text-primary-custom {
+        color: #007bff !important; /* Standard primary blue */
+    }
+
+    /* Card text (description) */
+    .text-muted-custom {
+        color: #6c757d !important; /* Standard muted text */
+    }
+
+    /* Buttons inside modules */
+    .btn {
+        font-weight: 600;
+        border-radius: 0.5rem;
+        padding: 0.6rem 1.2rem;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        transition: all 0.3s ease;
+    }
+
+    .btn-outline-success-custom {
+        border-color: #28a745;
+        color: #28a745;
+        background-color: transparent;
+        box-shadow: 0 2px 8px rgba(40, 167, 69, 0.1);
+    }
+
+        .btn-outline-success-custom:hover {
+            background-color: #28a745;
+            color: white;
+            box-shadow: 0 6px 15px rgba(40, 167, 69, 0.4);
+            transform: translateY(-1px);
+        }
+
+    .btn-outline-primary-custom {
+        border-color: #007bff;
+        color: #007bff;
+        background-color: transparent;
+        box-shadow: 0 2px 8px rgba(0, 123, 255, 0.1);
+    }
+
+        .btn-outline-primary-custom:hover {
+            background-color: #007bff;
+            color: white;
+            box-shadow: 0 6px 15px rgba(0, 123, 255, 0.4);
+            transform: translateY(-1px);
+        }
+</style>

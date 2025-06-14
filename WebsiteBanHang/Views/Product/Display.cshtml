@@ -1,0 +1,272 @@
+@model WebsiteBanHang.Models.Product
+
+<div class="container mt-5">
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            @* Icon removed: <i class="bi bi-check-circle-fill me-2"></i> *@ @TempData["SuccessMessage"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+    <div class="card shadow-custom rounded-4 overflow-hidden">
+        <div class="card-header bg-primary-gradient d-flex justify-content-between align-items-center py-3 px-4">
+            <h2 class="mb-0 text-white fw-bold">@Model.Name</h2>
+            <a asp-controller="Product" asp-action="Index" asp-area="" class="btn btn-outline-light btn-back-custom">
+                @* Icon removed: <i class="bi bi-arrow-left me-2"></i> *@ Trở về danh sách
+            </a>
+        </div>
+        <div class="card-body p-5">
+            <div class="row g-5 align-items-center">
+                <div class="col-md-6">
+                    <div class="price-tag-custom mb-5">
+                        <h3 class="fw-bold mb-0">
+                            @* Icon removed: <i class="bi bi-tag-fill me-3"></i> *@ @Model.Price.ToString("C")
+                        </h3>
+                    </div>
+                    <div class="description-section-custom">
+                        <h5 class="mb-3 fw-semibold text-primary-dark d-flex align-items-center">
+                            @* Icon removed: <i class="bi bi-info-circle me-3 fs-4"></i> *@ Mô tả sản phẩm
+                        </h5>
+                        <div class="card bg-light-blue border-0 shadow-sm rounded-4">
+                            <div class="card-body fs-5 text-muted-custom">
+                                @Model.Description
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-4">
+                        <form asp-controller="Cart" asp-action="AddToCart" method="post">
+                            <input type="hidden" name="productId" value="@Model.Id" />
+                            <div class="d-flex align-items-center">
+                                <div class="input-group me-3" style="width: 150px;">
+                                    <span class="input-group-text bg-light-blue-input">Số lượng</span>
+                                    <input type="number" name="quantity" class="form-control form-control-custom-qty" value="1" min="1" max="100" />
+                                </div>
+                                <button type="submit" class="btn btn-primary-custom btn-lg add-to-cart-btn">
+                                    Thêm vào giỏ hàng
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="col-md-6 text-center">
+                    @if (!string.IsNullOrEmpty(Model.ImageUrl))
+                    {
+                        <div class="product-image-container-custom shadow-lg rounded-4 overflow-hidden mx-auto">
+                            <img src="@Model.ImageUrl"
+                                 alt="Product Image"
+                                 class="img-fluid"
+                                 style="max-width: 100%; max-height: 420px; object-fit: contain;" />
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="no-image-placeholder-custom p-5 rounded-4 border border-info-subtle">
+                            @* Icon removed: <i class="bi bi-image text-info-light" style="font-size: 5rem;"></i> *@
+                            <p class="text-info-secondary mt-3 fs-5 fw-medium">Chưa có ảnh</p>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background-color: #f8faff; /* Consistent light blue background */
+        color: #343a40; /* Default text color */
+    }
+
+    /* Card general styling */
+    .shadow-custom {
+        box-shadow: 0 1rem 3rem rgba(0, 123, 255, 0.15) !important; /* Lighter blue shadow */
+        border-radius: 1.5rem !important;
+        border: 1px solid #cce0ff !important; /* Light blue border */
+        background: #fff; /* White background for card body */
+        transition: box-shadow 0.3s ease;
+    }
+
+        .shadow-custom:hover {
+            box-shadow: 0 1.5rem 4rem rgba(0, 123, 255, 0.25) !important; /* Slightly more prominent shadow on hover */
+        }
+
+    /* Card Header */
+    .bg-primary-gradient {
+        background: linear-gradient(45deg, #007bff, #6a00ff) !important; /* Blue to purple gradient for header */
+        border-radius: 1.5rem 1.5rem 0 0 !important;
+        padding: 1.5rem 2.5rem !important; /* Adjusted padding */
+        box-shadow: inset 0 -4px 10px rgba(0, 0, 0, 0.15);
+    }
+
+    .card-header h2 {
+        font-size: 2rem; /* Slightly smaller for balance */
+        user-select: none;
+        letter-spacing: 0.03em; /* Adjusted letter spacing */
+    }
+
+    /* Back to List Button */
+    .btn-back-custom {
+        font-weight: 600;
+        font-size: 0.95rem; /* Slightly smaller font */
+        padding: 0.5rem 1.25rem; /* Adjusted padding */
+        border-radius: 2rem;
+        border-width: 2px;
+        transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.25s ease;
+        border-color: #ffffff !important; /* Keep white border */
+        color: #fff; /* White text */
+    }
+
+        .btn-back-custom:hover {
+            background-color: #0056b3 !important; /* Darker blue on hover */
+            color: #fff !important;
+            box-shadow: 0 6px 20px rgba(0, 86, 179, 0.65);
+            border-color: transparent !important;
+        }
+
+    /* Price tag */
+    .price-tag-custom {
+        background: linear-gradient(135deg, #a7d9f7, #6bb9f0); /* Lighter blue to cyan gradient */
+        padding: 20px 25px; /* Adjusted padding */
+        border-radius: 1.25rem; /* Slightly smaller radius */
+        color: #004085; /* Darker blue for text */
+        box-shadow: 0 8px 25px rgba(107, 185, 240, 0.5);
+        user-select: none;
+        font-size: 1.8rem; /* Adjusted font size */
+        display: inline-flex;
+        align-items: center;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+        .price-tag-custom:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px rgba(107, 185, 240, 0.7);
+        }
+
+    /* Icon removed, so no need for i styles related to margin/filter */
+    /* .price-tag-custom i {
+                font-size: 2.1rem;
+                margin-right: 0.8rem;
+                filter: drop-shadow(0 2px 2px rgba(0, 64, 133, 0.7));
+            } */
+
+    /* Description section */
+    .text-primary-dark {
+        color: #0056b3 !important; /* Darker blue for description heading */
+        font-size: 1.15rem; /* Adjusted font size */
+    }
+
+    .description-section-custom .card {
+        background: #eaf4fd; /* Very light blue for description card */
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        font-weight: 500;
+        letter-spacing: 0.02em;
+        line-height: 1.6;
+        color: #4a4a4a; /* Slightly darker text for readability */
+        border: 1px solid #cce0ff !important; /* Light blue border for description card */
+    }
+
+    .text-muted-custom {
+        color: #5a6268 !important; /* Slightly darker muted color */
+    }
+
+    /* Quantity input */
+    .input-group-text.bg-light-blue-input {
+        background-color: #eaf4fd; /* Light blue background for input group text */
+        border-color: #cce0ff;
+        color: #336699; /* Medium blue text */
+        font-weight: 500;
+    }
+
+    .form-control-custom-qty {
+        border-color: #cce0ff; /* Light blue border for input */
+        color: #343a40;
+        transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+        .form-control-custom-qty:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 0 0.25rem rgba(0, 123, 255, 0.25);
+            outline: none;
+        }
+
+    /* Add to cart button */
+    .btn-primary-custom {
+        background-color: #007bff !important;
+        border-color: #007bff !important;
+        font-weight: 600;
+        font-size: 1.1rem; /* Adjusted font size */
+        padding: 0.65rem 1.8rem; /* Adjusted padding */
+        border-radius: 0.5rem;
+        box-shadow: 0 5px 15px rgba(0, 123, 255, 0.3);
+        transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
+    }
+
+        .btn-primary-custom:hover {
+            background-color: #0056b3 !important;
+            border-color: #0056b3 !important;
+            box-shadow: 0 8px 25px rgba(0, 123, 255, 0.5);
+            transform: translateY(-2px);
+        }
+
+    /* Product image container */
+    .product-image-container-custom {
+        max-width: 420px;
+        margin: 0 auto;
+        border-radius: 1.5rem;
+        overflow: hidden;
+        background-color: #fff; /* White background for the image card */
+        border: 1px solid #cce0ff; /* Light blue border */
+        box-shadow: 0 10px 30px rgba(0, 123, 255, 0.2); /* Lighter blue shadow */
+        transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.4s ease;
+        cursor: pointer;
+    }
+
+        .product-image-container-custom:hover {
+            transform: scale(1.03); /* Slightly less aggressive scale on hover */
+            box-shadow: 0 20px 55px rgba(0, 123, 255, 0.4); /* More prominent blue shadow on hover */
+        }
+
+    /* No image placeholder */
+    .no-image-placeholder-custom {
+        background: #f0f7ff; /* Lighter blue for placeholder */
+        user-select: none;
+        border: 3px dashed #a7d9f7 !important; /* Light blue dashed border */
+        color: #007bff; /* Bootstrap primary blue for icon */
+        transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+    }
+
+        .no-image-placeholder-custom:hover {
+            background-color: #d1e7fd; /* Darker blue on hover */
+            border-color: #0056b3 !important; /* Darker dashed border on hover */
+            color: #004085; /* Darker blue for icon on hover */
+        }
+
+    /* Icon removed, so no need for i styles related to font-size */
+    /* .text-info-light {
+            color: #8bbef8 !important;
+        } */
+
+    .text-info-secondary {
+        color: #6c757d !important; /* Standard muted text for placeholder */
+    }
+
+    /* Success Alert */
+    .alert-success {
+        background-color: #d4edda; /* Light green Bootstrap success */
+        color: #155724; /* Dark green text */
+        border-color: #c3e6cb;
+        border-radius: 0.75rem;
+        box-shadow: 0 4px 12px rgba(40, 167, 69, 0.2);
+        padding: 1rem 1.5rem;
+    }
+
+        /* Icon removed, so no need for i styles */
+        /* .alert-success .bi-check-circle-fill {
+                color: #28a745;
+            } */
+
+        .alert-success .btn-close {
+            color: #155724; /* Dark green for close button */
+        }
+</style>

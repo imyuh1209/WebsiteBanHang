@@ -1,0 +1,109 @@
+﻿@model WebsiteBanHang.Models.Product
+
+@{
+    ViewData["Title"] = "Xác nhận xoá sản phẩm";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow-lg rounded-4 border-0 delete-product-card">
+                <div class="card-header bg-danger-custom text-white rounded-top-4 shadow-sm d-flex align-items-center justify-content-center py-3">
+                    <h2 class="mb-0 fw-bold">Xoá sản phẩm</h2>
+                </div>
+                <div class="card-body text-center p-4">
+                    <h4 class="mb-4 text-danger-custom fw-semibold">Bạn có chắc muốn xoá sản phẩm này?</h4>
+                    <div class="alert alert-warning-custom fs-5 fw-semibold rounded-3 shadow-sm">
+                        <strong>Tên sản phẩm:</strong> @Model.Name
+                    </div>
+                    <form asp-action="DeleteConfirmed" method="post">
+                        <input type="hidden" asp-for="Id" />
+                        <div class="d-flex justify-content-center gap-3 mt-4">
+                            <a asp-action="Index" class="btn btn-outline-secondary-custom px-4 fw-semibold" style="min-width:110px;">Huỷ</a>
+                            <button type="submit" class="btn btn-danger-action-custom px-4 fw-semibold" style="min-width:110px;">Xoá</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background-color: #f8faff; /* Consistent light blue background */
+        color: #343a40; /* Default text color */
+    }
+
+    /* Main Card Styling */
+    .delete-product-card {
+        border-radius: 1rem;
+        box-shadow: 0 1rem 3rem rgba(0, 123, 255, 0.15) !important; /* Lighter blue shadow */
+        border: 1px solid #cce0ff !important; /* Light blue border */
+    }
+
+    /* Card Header for Delete (using a custom deep red) */
+    .bg-danger-custom {
+        background-color: #900C3F !important; /* Deep Red / Burgundy */
+        background-image: linear-gradient(45deg, #900C3F, #C70039) !important; /* Slight gradient for depth */
+        box-shadow: 0 4px 15px rgba(144, 12, 63, 0.6) !important;
+        font-size: 1.8rem;
+        letter-spacing: 1px;
+        padding-top: 1rem !important;
+        padding-bottom: 1rem !important;
+    }
+
+    /* Text color for "Bạn có chắc..." */
+    .text-danger-custom {
+        color: #900C3F !important; /* Matching deep red for text */
+    }
+
+    /* Alert for product name (using Bootstrap Warning, but with custom styling) */
+    .alert-warning-custom {
+        background-color: #ffe8d6; /* Softer, slightly orange-yellow */
+        color: #8f4000; /* Darker, deep orange text */
+        border-color: #ffb861; /* Matching border */
+        box-shadow: 0 3px 10px rgba(255, 175, 50, 0.3); /* Softer shadow */
+        font-size: 1.05rem; /* Slightly larger font for prominence */
+    }
+
+    /* Buttons general styling */
+    .btn {
+        font-weight: 600;
+        border-radius: 0.5rem;
+        padding: 0.6rem 1.5rem;
+        transition: all 0.3s ease;
+    }
+
+    /* "Huỷ" Button */
+    .btn-outline-secondary-custom {
+        color: #6c757d; /* Standard secondary gray */
+        border-color: #6c757d;
+        background-color: transparent;
+        box-shadow: 0 2px 5px rgba(108, 117, 125, 0.1);
+    }
+
+        .btn-outline-secondary-custom:hover {
+            background-color: #6c757d;
+            color: white;
+            border-color: #6c757d;
+            box-shadow: 0 4px 10px rgba(108, 117, 125, 0.3);
+            transform: translateY(-1px);
+        }
+
+    /* "Xoá" Button (custom deep red for action) */
+    .btn-danger-action-custom {
+        background-color: #C70039; /* A slightly brighter but still deep red */
+        border-color: #C70039;
+        color: #fff;
+        box-shadow: 0 6px 15px rgba(199, 0, 57, 0.5); /* Stronger red shadow */
+    }
+
+        .btn-danger-action-custom:hover {
+            background-color: #A3002D; /* Even deeper red on hover */
+            border-color: #A3002D;
+            box-shadow: 0 8px 22px rgba(163, 0, 45, 0.7);
+            transform: translateY(-1px);
+        }
+</style>

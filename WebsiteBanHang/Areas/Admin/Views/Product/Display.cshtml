@@ -1,0 +1,244 @@
+﻿@model WebsiteBanHang.Models.Product
+
+@{
+    ViewData["Title"] = "Chi tiết sản phẩm";
+}
+
+<div class="container mt-4">
+    <div class="card shadow-lg rounded-4 border-0 product-detail-card">
+        <div class="card-header bg-primary-gradient text-white d-flex justify-content-between align-items-center rounded-top-4 py-3">
+            <h2 class="mb-0 fw-bold">@Model.Name</h2>
+            <a asp-action="Index" class="btn btn-outline-light-custom">
+                <i class="bi bi-arrow-left"></i> Trở về Danh sách
+            </a>
+        </div>
+        <div class="card-body p-4">
+            <div class="row g-4">
+                <div class="col-md-6">
+                    <div class="price-tag mb-4">
+                        <h3 class="display-6 text-white fw-bold mb-0">
+                            <i class="bi bi-tag-fill me-2"></i> @Model.Price.ToString("C")
+                        </h3>
+                    </div>
+                    <div class="description-section mt-4">
+                        <h4 class="text-info-custom mb-3 fw-semibold">
+                            <i class="bi bi-info-circle me-2"></i> Mô tả
+                        </h4>
+                        <div class="card description-card">
+                            <div class="card-body">
+                                <p class="lead mb-0 text-dark-grey">@Model.Description</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="image-section text-center h-100 d-flex align-items-center justify-content-center">
+                        @if (!string.IsNullOrEmpty(Model.ImageUrl))
+                        {
+                            <div class="product-image-container">
+                                <img src="@Model.ImageUrl"
+                                     alt="Product Image"
+                                     class="img-fluid rounded-3 shadow-md"
+                                     style="max-width:100%; height:auto;" />
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="no-image-placeholder p-5 rounded-3">
+                                <i class="bi bi-image text-primary-light" style="font-size: 4rem;"></i>
+                                <p class="text-muted-custom mt-2">Không có ảnh</p>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card-footer bg-light-blue-custom p-3">
+            <div class="d-flex justify-content-end gap-2">
+                <a asp-action="Update" asp-route-id="@Model.Id" class="btn btn-warning-custom">
+                    <i class="bi bi-pencil me-1"></i> Sửa
+                </a>
+                <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger-custom">
+                    <i class="bi bi-trash me-1"></i> Xoá
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background-color: #f8faff; /* Consistent light blue background */
+        color: #343a40; /* Default text color */
+    }
+
+    /* Main Card Styling */
+    .product-detail-card {
+        border-radius: 1rem;
+        box-shadow: 0 1rem 3rem rgba(0, 123, 255, 0.15) !important; /* Lighter blue shadow */
+        border: 1px solid #cce0ff !important; /* Light blue border */
+    }
+
+    /* Card Header */
+    .bg-primary-gradient {
+        background: linear-gradient(45deg, #007bff, #6a00ff) !important; /* Blue to purple gradient for header */
+        padding-top: 1rem !important;
+        padding-bottom: 1rem !important;
+    }
+
+    /* Price Tag */
+    .price-tag {
+        padding: 0.8rem 1.5rem;
+        border-radius: 1rem;
+        background: linear-gradient(135deg, #007bff, #6a00ff); /* Blue to purple gradient */
+        box-shadow: 0 5px 20px rgba(0, 123, 255, 0.4);
+        display: inline-block;
+        font-weight: 700;
+        font-size: 1.8rem;
+        color: #fff;
+        user-select: none;
+    }
+
+        .price-tag h3 {
+            margin-bottom: 0;
+        }
+
+    /* Description Section */
+    .text-info-custom {
+        color: #17a2b8 !important; /* Bootstrap Info Blue for description title */
+    }
+
+    .description-card {
+        border-radius: 1rem;
+        box-shadow: 0 4px 18px rgba(0, 123, 255, 0.08); /* Light blue shadow */
+        background-color: #e0efff; /* Very light blue background */
+        border: 1px solid #cce0ff;
+    }
+
+        .description-card .card-body {
+            padding: 1.5rem;
+        }
+
+    .text-dark-grey {
+        color: #343a40; /* Dark gray for description text */
+        line-height: 1.7;
+    }
+
+    /* Product Image Container */
+    .product-image-container {
+        transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+        display: inline-block;
+        border-radius: 1rem; /* Consistent border radius */
+        overflow: hidden;
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15); /* Slightly stronger shadow */
+        cursor: pointer;
+    }
+
+        .product-image-container:hover {
+            transform: scale(1.05); /* Slightly less aggressive zoom */
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .product-image-container img {
+            display: block; /* Remove extra space below image */
+        }
+
+    /* No Image Placeholder */
+    .no-image-placeholder {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 280px; /* Keep consistent height */
+        border-radius: 1rem;
+        background-color: #e0efff; /* Very light blue */
+        border: 3px dashed #a7d9f7; /* Lighter dashed blue border */
+        color: #007bff; /* Primary blue for icon/text */
+        user-select: none;
+        font-weight: 600;
+        font-size: 1.2rem;
+        transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+    }
+
+        .no-image-placeholder:hover {
+            background-color: #cce0ff;
+            border-color: #007bff;
+            color: #0056b3;
+        }
+
+    .text-primary-light {
+        color: #8bbef8 !important; /* Lighter blue for placeholder icon */
+    }
+
+    .text-muted-custom {
+        color: #6c757d !important; /* Standard muted text */
+    }
+
+    /* Card Footer */
+    .bg-light-blue-custom {
+        background-color: #f0f7ff !important; /* Very light blue for footer */
+        border-top: 1px solid #e0efff; /* Light blue border top */
+    }
+
+    /* Buttons in Footer */
+    .btn {
+        min-width: 120px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 600;
+        border-radius: 0.5rem;
+        padding: 0.55rem 1.3rem;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        transition: box-shadow 0.25s ease, background-color 0.25s ease, color 0.25s ease;
+    }
+
+        .btn i {
+            font-size: 1.1rem;
+        }
+
+    /* "Trở về List" Button */
+    .btn-outline-light-custom {
+        background-color: transparent;
+        border: 2px solid #fff; /* White border */
+        color: #fff; /* White text */
+        font-weight: 600;
+        padding: 0.4rem 1rem;
+        border-radius: 0.5rem;
+        box-shadow: 0 2px 6px rgba(0, 123, 255, 0.3);
+    }
+
+        .btn-outline-light-custom:hover {
+            background-color: rgba(255, 255, 255, 0.2); /* Slightly transparent white on hover */
+            box-shadow: 0 4px 10px rgba(0, 123, 255, 0.5);
+            color: #fff;
+            text-decoration: none;
+        }
+
+    /* "Sửa" Button */
+    .btn-warning-custom {
+        background-color: #ffc107; /* Bootstrap Warning Yellow */
+        border-color: #ffc107;
+        color: #343a40; /* Dark text for contrast */
+    }
+
+        .btn-warning-custom:hover {
+            background-color: #e0a800;
+            border-color: #d39e00;
+            box-shadow: 0 6px 15px rgba(255, 193, 7, 0.4);
+        }
+
+    /* "Xoá" Button */
+    .btn-danger-custom {
+        background-color: #dc3545; /* Bootstrap Danger Red */
+        border-color: #dc3545;
+        color: #fff;
+    }
+
+        .btn-danger-custom:hover {
+            background-color: #c82333;
+            border-color: #bd2130;
+            box-shadow: 0 6px 15px rgba(220, 53, 69, 0.4);
+        }
+</style>

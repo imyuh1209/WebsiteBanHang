@@ -1,0 +1,132 @@
+﻿@model WebsiteBanHang.Models.Category
+
+@{
+    ViewData["Title"] = "Chi tiết danh mục";
+}
+
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow rounded-4 border-0 category-details-card">
+                <div class="card-header text-white d-flex justify-content-between align-items-center rounded-top-4 category-details-header">
+                    <h2 class="mb-0">Chi tiết danh mục</h2>
+                    <a asp-action="Index" class="btn btn-outline-light fw-semibold category-details-header-btn">
+                        <i class="bi bi-arrow-left"></i> Trở về List
+                    </a>
+                </div>
+                <div class="card-body fs-5 p-4">
+                    <dl class="row mb-0">
+                        <dt class="col-sm-4 fw-semibold text-dark-blue">Tên danh mục:</dt>
+                        <dd class="col-sm-8 text-muted">@Model.Name</dd>
+                    </dl>
+                </div>
+                <div class="card-footer d-flex justify-content-end gap-2 p-3">
+                    <a asp-action="Update" asp-route-id="@Model.Id" class="btn btn-warning-custom fw-semibold">
+                        <i class="bi bi-pencil"></i> Sửa
+                    </a>
+                    <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger-custom fw-semibold">
+                        <i class="bi bi-trash"></i> Xoá
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    body {
+        background-color: #f8faff; /* Consistent light blue background */
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    /* Card custom styling */
+    .category-details-card {
+        border-radius: 1rem;
+        box-shadow: 0 1rem 3rem rgba(0, 123, 255, 0.15) !important; /* Lighter blue shadow */
+        border: 1px solid #cce0ff !important; /* Light blue border */
+    }
+
+    /* Header styling */
+    .category-details-header {
+        background: linear-gradient(135deg, #007bff, #6a00ff); /* Blue to purple gradient */
+        padding: 1.25rem 1.5rem;
+        border-bottom: 2px solid rgba(0, 0, 0, 0.1);
+    }
+
+        .category-details-header h2 {
+            font-size: 1.75rem;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+        }
+
+    /* Header button */
+    .category-details-header-btn {
+        font-size: 0.9rem;
+        padding: 0.4rem 0.9rem;
+        border-radius: 2rem; /* Pill shape */
+        border-width: 2px;
+        transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.25s ease;
+        border-color: #ffffff !important; /* White border */
+    }
+
+        .category-details-header-btn:hover {
+            background-color: rgba(255, 255, 255, 0.2) !important; /* Slightly transparent white */
+            color: #fff !important;
+            box-shadow: 0 4px 15px rgba(255, 255, 255, 0.25);
+        }
+
+    /* Detail list (dl) styling */
+    dl dt {
+        font-weight: 600;
+        color: #004085; /* Dark blue for property names */
+    }
+
+    dl dd {
+        color: #495057; /* Standard dark gray for values */
+    }
+
+    .text-dark-blue {
+        color: #004085 !important;
+    }
+
+    .text-muted {
+        color: #6c757d !important; /* Standard muted text color */
+    }
+
+    /* Footer buttons */
+    .btn-warning-custom {
+        background-color: #ffc107; /* Standard warning yellow */
+        border-color: #ffc107;
+        color: #343a40; /* Dark text for contrast */
+        border-radius: 0.5rem;
+        font-weight: 600;
+        padding: 0.6rem 1.2rem;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 10px rgba(255, 193, 7, 0.3);
+    }
+
+        .btn-warning-custom:hover {
+            background-color: #e0a800;
+            border-color: #d39e00;
+            transform: translateY(-1px);
+            box-shadow: 0 6px 15px rgba(255, 193, 7, 0.5);
+        }
+
+    .btn-danger-custom {
+        background-color: #dc3545; /* Standard danger red */
+        border-color: #dc3545;
+        color: #fff;
+        border-radius: 0.5rem;
+        font-weight: 600;
+        padding: 0.6rem 1.2rem;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 10px rgba(220, 53, 69, 0.3);
+    }
+
+        .btn-danger-custom:hover {
+            background-color: #c82333;
+            border-color: #bd2130;
+            transform: translateY(-1px);
+            box-shadow: 0 6px 15px rgba(220, 53, 69, 0.5);
+        }
+</style>

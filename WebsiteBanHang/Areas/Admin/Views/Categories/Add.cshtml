@@ -1,0 +1,140 @@
+﻿@model WebsiteBanHang.Models.Category
+
+@{
+    ViewData["Title"] = "Thêm danh mục mới";
+}
+
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow-lg border-0 rounded-4 add-category-card">
+                <div class="card-header text-white d-flex justify-content-between align-items-center add-category-header">
+                    <h2 class="card-title mb-0">Thêm danh mục mới</h2>
+                    <a asp-controller="Product" asp-action="Index" class="btn btn-outline-light btn-sm add-category-header-btn">
+                        <i class="bi bi-box"></i> Trở về sản phẩm
+                    </a>
+                </div>
+                <div class="card-body p-4">
+                    <form asp-action="Add" method="post">
+                        <div class="mb-3">
+                            <label asp-for="Name" class="form-label text-dark-blue">Tên danh mục</label>
+                            <input asp-for="Name" class="form-control shadow-sm add-category-input" placeholder="Nhập tên danh mục" />
+                            <span asp-validation-for="Name" class="text-danger small"></span>
+                        </div>
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-4">
+                            <a asp-action="Index" class="btn btn-outline-secondary me-md-2 add-category-back-btn">
+                                <i class="bi bi-arrow-left"></i> Trở về List
+                            </a>
+                            <button type="submit" class="btn btn-primary-custom add-category-submit-btn">
+                                <i class="bi bi-plus-circle"></i> Tạo mới
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
+
+<style>
+    body {
+        background-color: #f8faff; /* Consistent light blue background */
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .add-category-card {
+        border-radius: 0.75rem; /* Slightly more rounded corners */
+        box-shadow: 0 1rem 3rem rgba(0, 123, 255, 0.15) !important; /* Lighter blue shadow */
+        border: 1px solid #cce0ff !important; /* Light blue border */
+    }
+
+    .add-category-header {
+        background: linear-gradient(135deg, #007bff, #6a00ff); /* Blue to purple gradient */
+        border-bottom: 2px solid rgba(0, 0, 0, 0.1);
+        padding: 1.25rem 1.5rem;
+    }
+
+        .add-category-header h2 {
+            font-size: 1.75rem;
+            font-weight: 600;
+        }
+
+    .add-category-header-btn {
+        font-size: 0.9rem;
+        padding: 0.4rem 0.9rem;
+        border-radius: 2rem;
+        border-width: 2px;
+        transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.25s ease;
+        border-color: #ffffff !important;
+    }
+
+        .add-category-header-btn:hover {
+            background-color: rgba(255, 255, 255, 0.2) !important;
+            color: #fff !important;
+            box-shadow: 0 4px 15px rgba(255, 255, 255, 0.25);
+        }
+
+    .text-dark-blue {
+        color: #004085; /* Dark blue for label */
+        font-weight: 500;
+    }
+
+    .add-category-input {
+        border-color: #a7d9f7; /* Light blue border */
+        transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        padding: 0.75rem 1rem; /* Slightly more padding */
+    }
+
+        .add-category-input:focus {
+            border-color: #007bff; /* Primary blue on focus */
+            box-shadow: 0 0 0 0.25rem rgba(0, 123, 255, 0.25); /* Blue focus shadow */
+        }
+
+    .add-category-submit-btn {
+        background-color: #007bff; /* Primary blue */
+        border-color: #007bff;
+        font-weight: 600;
+        padding: 0.75rem 1.5rem;
+        font-size: 1.1rem;
+        border-radius: 0.5rem;
+        transition: all 0.3s ease;
+        box-shadow: 0 5px 15px rgba(0, 123, 255, 0.3);
+    }
+
+        .add-category-submit-btn:hover {
+            background-color: #0056b3;
+            border-color: #0056b3;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 123, 255, 0.5);
+        }
+
+    .add-category-back-btn {
+        border-color: #a7d9f7; /* Light blue border */
+        color: #007bff; /* Primary blue text */
+        font-weight: 500;
+        padding: 0.75rem 1.5rem;
+        font-size: 1.1rem;
+        border-radius: 0.5rem;
+        transition: all 0.3s ease;
+    }
+
+        .add-category-back-btn:hover {
+            background-color: #e0efff; /* Very light blue background on hover */
+            border-color: #007bff;
+            color: #007bff;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0, 123, 255, 0.1);
+        }
+
+    .text-danger.small {
+        font-size: 0.85rem;
+        margin-top: 0.25rem;
+        display: block; /* Ensure it takes its own line */
+    }
+</style>

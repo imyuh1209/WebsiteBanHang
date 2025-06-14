@@ -1,0 +1,154 @@
+﻿@page
+@model RegisterModel
+@{
+    ViewData["Title"] = "Đăng ký";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-5 col-lg-4">
+            <div class="card shadow-lg border-0 rounded-4 overflow-hidden register-card">
+                <div class="card-header text-white text-center py-4 register-header">
+                    <h3 class="mb-0 fw-semibold">@ViewData["Title"]</h3>
+                </div>
+                <div class="card-body p-4">
+                    <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post" novalidate>
+                        <div asp-validation-summary="ModelOnly" class="text-danger mb-3" role="alert"></div>
+
+                        <div class="form-floating mb-3">
+                            <input asp-for="Input.FullName" class="form-control shadow-sm register-input" placeholder="Họ và tên" />
+                            <label asp-for="Input.FullName">Họ và tên</label>
+                            <span asp-validation-for="Input.FullName" class="text-danger small"></span>
+                        </div>
+
+                        <div class="form-floating mb-3">
+                            <input asp-for="Input.Email" class="form-control shadow-sm register-input" placeholder="name@example.com" />
+                            <label asp-for="Input.Email">Email</label>
+                            <span asp-validation-for="Input.Email" class="text-danger small"></span>
+                        </div>
+
+                        <div class="form-floating mb-3">
+                            <input asp-for="Input.Password" type="password" class="form-control shadow-sm register-input" placeholder="Mật khẩu" />
+                            <label asp-for="Input.Password">Mật khẩu</label>
+                            <span asp-validation-for="Input.Password" class="text-danger small"></span>
+                        </div>
+
+                        <div class="form-floating mb-3">
+                            <input asp-for="Input.ConfirmPassword" type="password" class="form-control shadow-sm register-input" placeholder="Xác nhận mật khẩu" />
+                            <label asp-for="Input.ConfirmPassword">Xác nhận mật khẩu</label>
+                            <span asp-validation-for="Input.ConfirmPassword" class="text-danger small"></span>
+                        </div>
+
+                        <div class="form-floating mb-4">
+                            <select asp-for="Input.Role" asp-items="@Model.Input.Roleslist" class="form-select shadow-sm register-select">
+                                <option disabled selected value="">Chọn vai trò</option>
+                            </select>
+                            <label asp-for="Input.Role">Vai trò</label>
+                        </div>
+
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary btn-lg rounded-3 shadow-sm register-button">Đăng ký</button>
+                        </div>
+
+                        <div class="text-center mt-4">
+                            <p class="mb-0 text-muted">
+                                Đã có tài khoản?
+                                <a href="/Identity/Account/Login" class="link-primary fw-medium">Đăng nhập</a>
+                            </p>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+
+<style>
+    body {
+        background-color: #f8faff; /* Consistent light blue background */
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .register-card {
+        box-shadow: 0 1rem 3rem rgba(0, 123, 255, 0.15) !important; /* Lighter blue shadow */
+        border: 1px solid #cce0ff !important; /* Light blue border */
+    }
+
+    .register-header {
+        background: linear-gradient(135deg, #007bff, #6a00ff); /* Blue to purple gradient */
+        border-bottom: 2px solid rgba(0, 0, 0, 0.1);
+    }
+
+        .register-header h3 {
+            font-size: 1.75rem;
+            letter-spacing: 0.05em;
+        }
+
+    /* Form inputs and selects */
+    .register-input, .register-select {
+        border-color: #a7d9f7; /* Light blue border for inputs */
+        transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+        .register-input:focus, .register-select:focus {
+            border-color: #007bff; /* Primary blue on focus */
+            box-shadow: 0 0 0 0.25rem rgba(0, 123, 255, 0.25); /* Blue focus shadow */
+        }
+
+    /* Placeholder text color */
+    .form-floating > .form-control::placeholder,
+    .form-floating > .form-select::placeholder {
+        color: #888;
+    }
+
+    /* Labels for floating inputs */
+    .form-floating > label {
+        color: #6c757d; /* Bootstrap secondary color for labels */
+    }
+
+    .form-floating > .form-control:focus ~ label,
+    .form-floating > .form-control:not(:placeholder-shown) ~ label,
+    .form-floating > .form-select:focus ~ label,
+    .form-floating > .form-select:not(:valid) ~ label {
+        color: #007bff; /* Primary blue when focused or filled */
+    }
+
+    /* Register button */
+    .register-button {
+        background-color: #007bff; /* Primary blue */
+        border-color: #007bff;
+        font-weight: 600;
+        padding: 0.75rem 1.5rem;
+        font-size: 1.1rem;
+        transition: all 0.3s ease;
+        box-shadow: 0 5px 15px rgba(0, 123, 255, 0.3);
+    }
+
+        .register-button:hover {
+            background-color: #0056b3;
+            border-color: #0056b3;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 123, 255, 0.5);
+        }
+
+    /* Link for existing account */
+    .text-muted {
+        color: #6c757d !important; /* Bootstrap secondary color */
+    }
+
+    .link-primary {
+        color: #007bff !important; /* Primary blue for the link */
+        text-decoration: none;
+        transition: color 0.2s ease;
+    }
+
+        .link-primary:hover {
+            color: #0056b3 !important; /* Darker blue on hover */
+            text-decoration: underline;
+        }
+</style>

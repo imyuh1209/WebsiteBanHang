@@ -1,0 +1,75 @@
+﻿@{
+    ViewData["Title"] = "Trang chủ";
+}
+
+<div class="welcome-container-simple text-center">
+    <h1 class="mt-4 display-4 fw-bold text-primary">Chào mừng bạn đến với Website Bán Máy Tính! 👋</h1>
+    <p class="lead text-secondary">
+        Khám phá các sản phẩm công nghệ mới nhất của chúng tôi.<br />
+        Chúc bạn có một trải nghiệm mua sắm tuyệt vời!
+    </p>
+    <div class="mt-5">
+        <a asp-controller="Product" asp-action="Index" class="btn btn-primary btn-lg shadow-sm">
+            <i class="bi bi-laptop me-2"></i> Xem Sản Phẩm Ngay
+        </a>
+    </div>
+</div>
+
+<style>
+    body, .welcome-container-simple {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .welcome-container-simple {
+        min-height: 80vh; /* Đảm bảo chiều cao tối thiểu để căn giữa */
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        background: linear-gradient(to bottom right, #e0efff, #cce0ff); /* Light blue gradient */
+        padding: 3rem; /* Tăng padding */
+        border-radius: 15px; /* Bo tròn góc hơn */
+        box-shadow: 0 10px 30px rgba(0, 123, 255, 0.1); /* Nhấn nhá thêm shadow nhẹ */
+        color: #333; /* Màu chữ mặc định */
+    }
+
+        .welcome-container-simple h1 {
+            font-size: 3.5rem; /* Tăng kích thước chữ H1 */
+            margin-bottom: 1.5rem; /* Khoảng cách dưới tiêu đề */
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1); /* Thêm đổ bóng nhẹ cho chữ */
+        }
+
+        .welcome-container-simple .lead {
+            font-size: 1.5rem; /* Tăng kích thước chữ đoạn văn */
+            color: #555; /* Màu chữ xám đậm hơn */
+            max-width: 700px; /* Giới hạn chiều rộng đoạn văn */
+            line-height: 1.6; /* Tăng khoảng cách dòng */
+        }
+
+        .welcome-container-simple .btn-primary {
+            background-color: #007bff; /* Bootstrap Primary Blue */
+            border-color: #007bff;
+            padding: 1rem 2.5rem;
+            font-size: 1.25rem;
+            font-weight: 600;
+            border-radius: 50px; /* Nút tròn hơn */
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 123, 255, 0.3); /* Shadow cho nút */
+        }
+
+            .welcome-container-simple .btn-primary:hover {
+                background-color: #0056b3; /* Darker blue on hover */
+                border-color: #0056b3;
+                transform: translateY(-3px); /* Hiệu ứng nhấc nhẹ lên khi hover */
+                box-shadow: 0 8px 20px rgba(0, 123, 255, 0.5);
+            }
+
+    /* Override Bootstrap text color for consistency */
+    .text-primary {
+        color: #007bff !important;
+    }
+
+    .text-secondary {
+        color: #6c757d !important; /* Default Bootstrap secondary color for lead text */
+    }
+</style>

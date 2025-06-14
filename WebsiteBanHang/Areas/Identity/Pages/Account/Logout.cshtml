@@ -1,0 +1,89 @@
+﻿@page
+@model LogoutModel
+@{
+    ViewData["Title"] = "Đăng xuất";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6 text-center">
+            <div class="card shadow-lg border-0 rounded-4 overflow-hidden logout-card">
+                <div class="card-body p-5">
+                    @if (User.Identity?.IsAuthenticated ?? false)
+                    {
+                        <i class="bi bi-question-circle text-primary-custom" style="font-size: 4rem;"></i>
+                        <h3 class="mt-4 mb-4 text-dark-blue">Bạn có chắc muốn đăng xuất?</h3>
+                        <form class="d-inline" asp-area="Identity" asp-page="/Account/Logout"
+                              asp-route-returnUrl="@Url.Page("/", new { area = "" })" method="post">
+                            <button type="submit" class="btn btn-primary-custom btn-lg px-5 logout-button">Đăng xuất</button>
+                        </form>
+                    }
+                    else
+                    {
+                        <i class="bi bi-check-circle text-success-custom" style="font-size: 4rem;"></i>
+                        <h3 class="mt-4 mb-4 text-dark-blue">Đăng xuất thành công!</h3>
+                        <p class="text-muted">Bạn đã đăng xuất khỏi hệ thống.</p>
+                        <a href="/Identity/Account/Login" class="btn btn-primary-custom mt-3 logout-button-small">Đăng nhập lại</a>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    body {
+        background-color: #f8faff; /* Consistent light blue background */
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .logout-card {
+        box-shadow: 0 1rem 3rem rgba(0, 123, 255, 0.15) !important; /* Lighter blue shadow */
+        border: 1px solid #cce0ff !important; /* Light blue border */
+    }
+
+    /* Custom primary blue color */
+    .text-primary-custom {
+        color: #007bff !important; /* Primary blue for icons */
+    }
+
+    /* Custom success green color (for "Đăng xuất thành công") */
+    .text-success-custom {
+        color: #28a745 !important; /* Keep a standard success green, but could be adjusted to blue-ish green if desired */
+    }
+
+    .text-dark-blue {
+        color: #004085; /* Dark blue for headings */
+    }
+
+    .btn-primary-custom {
+        background-color: #007bff; /* Primary blue */
+        border-color: #007bff;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        box-shadow: 0 5px 15px rgba(0, 123, 255, 0.3);
+    }
+
+        .btn-primary-custom:hover {
+            background-color: #0056b3;
+            border-color: #0056b3;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 123, 255, 0.5);
+        }
+
+    .logout-button {
+        padding: 0.85rem 3rem; /* Slightly larger padding for main logout button */
+        font-size: 1.2rem;
+        border-radius: 0.75rem;
+    }
+
+    .logout-button-small {
+        padding: 0.6rem 1.5rem;
+        font-size: 1rem;
+        border-radius: 0.5rem;
+    }
+
+    .text-muted {
+        color: #6c757d !important; /* Standard muted text color */
+    }
+</style>

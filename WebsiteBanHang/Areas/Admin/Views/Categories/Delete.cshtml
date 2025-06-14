@@ -1,0 +1,107 @@
+﻿@model WebsiteBanHang.Models.Category
+
+@{
+    ViewData["Title"] = "Xoá danh mục";
+}
+
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow rounded-4 border-0 delete-category-card">
+                <div class="card-header text-white rounded-top-4 shadow-sm d-flex align-items-center justify-content-center delete-category-header">
+                    <h2 class="mb-0">Xoá danh mục</h2>
+                </div>
+                <div class="card-body text-center p-4">
+                    <h4 class="mb-4 text-primary-custom fw-semibold">Bạn có chắc muốn xoá danh mục này?</h4>
+                    <div class="alert alert-info-custom fs-5 fw-semibold rounded-3 shadow-sm">
+                        <strong>Tên danh mục:</strong> @Model.Name
+                    </div>
+                    <form asp-action="DeleteConfirmed" method="post">
+                        <input type="hidden" asp-for="Id" />
+                        <div class="d-flex justify-content-center gap-3 mt-4">
+                            <a asp-action="Index" class="btn btn-outline-secondary-custom px-4 fw-semibold" style="min-width:110px;">Huỷ</a>
+                            <button type="submit" class="btn btn-danger-custom px-4 fw-semibold" style="min-width:110px;">Xoá</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    body {
+        background-color: #f8faff; /* Consistent light blue background */
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    /* Card styling */
+    .delete-category-card {
+        border-radius: 1rem;
+        box-shadow: 0 1rem 3rem rgba(0, 123, 255, 0.15) !important; /* Lighter blue shadow */
+        border: 1px solid #cce0ff !important; /* Light blue border */
+    }
+
+    /* Header styling */
+    .delete-category-header {
+        background: linear-gradient(135deg, #007bff, #6a00ff); /* Blue to purple gradient */
+        box-shadow: 0 4px 15px rgba(0, 123, 255, 0.4); /* Blue shadow for header */
+        font-size: 1.8rem;
+        letter-spacing: 1px;
+        padding: 1.5rem 1rem; /* Adjust padding for better look */
+    }
+
+        .delete-category-header h2 {
+            font-weight: 600;
+        }
+
+    /* Custom primary blue color */
+    .text-primary-custom {
+        color: #007bff !important; /* Primary blue for question text */
+    }
+
+    /* Alert for category name */
+    .alert-info-custom {
+        background-color: #e0efff; /* Lightest blue background */
+        color: #004085; /* Dark blue text */
+        border-color: #a7d9f7; /* Light blue border */
+        box-shadow: 0 3px 10px rgba(0, 123, 255, 0.1); /* Light blue shadow */
+    }
+
+        .alert-info-custom strong {
+            color: #0056b3; /* Slightly darker blue for strong text */
+        }
+
+    /* Cancel button */
+    .btn-outline-secondary-custom {
+        border-color: #a7d9f7; /* Light blue border */
+        color: #007bff; /* Primary blue text */
+        border-radius: 0.5rem;
+        transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+        font-size: 1.1rem;
+    }
+
+        .btn-outline-secondary-custom:hover {
+            background-color: #e0efff; /* Very light blue background on hover */
+            border-color: #007bff;
+            color: #007bff;
+            box-shadow: 0 4px 10px rgba(0, 123, 255, 0.1);
+        }
+
+    /* Delete button */
+    .btn-danger-custom {
+        background-color: #dc3545; /* Standard red for danger */
+        border-color: #dc3545;
+        color: #fff;
+        border-radius: 0.5rem;
+        transition: background-color 0.3s ease, box-shadow 0.3s ease;
+        font-size: 1.1rem;
+        box-shadow: 0 6px 15px rgba(220, 53, 69, 0.4); /* Red shadow for danger button */
+    }
+
+        .btn-danger-custom:hover {
+            background-color: #c82333; /* Darker red on hover */
+            border-color: #bd2130;
+            box-shadow: 0 8px 22px rgba(220, 53, 69, 0.6);
+        }
+</style>

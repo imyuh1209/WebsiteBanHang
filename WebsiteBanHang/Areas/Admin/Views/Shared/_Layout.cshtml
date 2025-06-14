@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Khu vực quản trị</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    @* Bootstrap Icons CSS - REMOVED *@
+    @* <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css"> *@
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
+            <div class="container">
+                <a class="navbar-brand d-flex align-items-center fw-bold text-primary" asp-area="Admin" asp-controller="Home" asp-action="Index">
+                    @* Icon removed: <i class="bi bi-speedometer2 fs-3 me-2"></i> *@
+                    Bảng điều khiển quản trị
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarAdmin" aria-controls="navbarAdmin" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbarAdmin">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link @((ViewContext.RouteData.Values["controller"]?.ToString() == "Product") ? "active" : "")" asp-area="Admin" asp-controller="Product" asp-action="Index">Sản phẩm</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link @((ViewContext.RouteData.Values["controller"]?.ToString() == "Categories") ? "active" : "")" asp-area="Admin" asp-controller="Categories" asp-action="Index">Danh mục</a>
+                        </li>
+                    </ul>
+                    <partial name="_LoginPartial" />
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <style>
+        /* Thêm style cho header menu */
+        .navbar-nav .nav-link {
+            font-weight: 600;
+            color: #4a4a4a;
+            transition: color 0.25s ease;
+        }
+
+            .navbar-nav .nav-link:hover,
+            .navbar-nav .nav-link.active {
+                color: #0d6efd; /* Màu primary của Bootstrap */
+            }
+
+        .navbar-brand {
+            font-size: 1.4rem;
+            /* Remove margin if it was solely for the icon */
+            /* margin-right: 0; */
+        }
+            /* If the d-flex was only for icon-text alignment, you might not need it for navbar-brand
+               but it's generally good practice for flexible alignment */
+            .navbar-brand.d-flex.align-items-center {
+                /* If you had specific spacing for icon, adjust/remove it here */
+                /* .me-2 was on the icon itself, so removing the icon removes its margin */
+            }
+    </style>
+
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2025 - Khu vực quản trị
+        </div>
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

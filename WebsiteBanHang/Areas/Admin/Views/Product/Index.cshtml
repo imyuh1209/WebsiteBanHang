@@ -1,0 +1,335 @@
+﻿@model IEnumerable<WebsiteBanHang.Models.Product>
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div class="d-flex align-items-center gap-3">
+            <h2 class="page-title">Quản lý sản phẩm</h2>
+            <a asp-area="Admin" asp-controller="Categories" asp-action="Index" class="btn btn-outline-primary-custom btn-category">
+                
+            </a>
+        </div>
+        <a asp-area="Admin" asp-action="Add" class="btn btn-primary-add-product">
+            <i class="bi bi-plus-circle me-1"></i> Thêm sản phẩm mới
+        </a>
+    </div>
+
+    <div class="table-responsive shadow-lg rounded-4 border border-primary-light">
+        <table class="table table-hover align-middle custom-table">
+            <thead>
+                <tr>
+                    <th>Tên</th>
+                    <th>Giá</th>
+                    <th>Mô tả</th>
+                    <th>Ảnh</th>
+                    <th>Danh mục</th>
+                    <th>Tác vụ</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var product in Model)
+                {
+                    <tr>
+                        <td>@product.Name</td>
+                        <td class="text-nowrap">@product.Price.ToString("C")</td>
+                        <td class="text-truncate" style="max-width: 250px;">@(product.Description?.Length > 70 ? product.Description.Substring(0, 67) + "..." : product.Description)</td>
+                        <td style="width: 120px;">
+                            @if (!string.IsNullOrEmpty(product.ImageUrl))
+                            {
+                                <img src="@product.ImageUrl" alt="@product.Name"
+                                     class="img-thumbnail product-thumbnail" />
+                            }
+                            else
+                            {
+                                <div class="no-image-placeholder">
+                                    <i class="bi bi-image"></i>
+                                </div>
+                            }
+                        </td>
+                        <td>@product.Category?.Name</td>
+                        <td>
+                            <div class="btn-group" role="group">
+                                <a asp-area="Admin" asp-action="Display" asp-route-id="@product.Id" class="btn btn-info-custom btn-sm btn-action">
+                                    <i class="bi bi-eye"></i> Xem
+                                </a>
+                                <a asp-area="Admin" asp-action="Update" asp-route-id="@product.Id" class="btn btn-warning-custom btn-sm btn-action">
+                                    <i class="bi bi-pencil"></i> Sửa
+                                </a>
+                                <a asp-area="Admin" asp-action="Delete" asp-route-id="@product.Id" class="btn btn-danger-custom btn-sm btn-action">
+                                    <i class="bi bi-trash"></i> Xoá
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<style>
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background-color: #f8faff; /* Consistent light blue background */
+        color: #343a40; /* Default text color */
+    }
+
+    /* Page Title */
+    .page-title {
+        font-size: 2.8rem;
+        font-weight: 800;
+        background: linear-gradient(45deg, #007bff, #6a00ff); /* Blue to purple gradient for title */
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        user-select: none;
+        text-shadow: 0 4px 10px rgba(0, 123, 255, 0.2);
+    }
+
+    /* Category Button */
+    .btn-category {
+        font-weight: 600;
+        color: #007bff; /* Primary blue text */
+        border: 2px solid #007bff; /* Primary blue border */
+        border-radius: 10px;
+        padding: 0.5rem 1.2rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        transition: all 0.3s ease;
+        user-select: none;
+        box-shadow: 0 3px 10px rgba(0, 123, 255, 0.15);
+    }
+
+        .btn-category:hover {
+            background-color: #007bff;
+            color: #fff;
+            box-shadow: 0 6px 20px rgba(0, 123, 255, 0.4);
+            border-color: #0056b3;
+        }
+
+    /* Add Product Button */
+    .btn-primary-add-product {
+        font-weight: 700;
+        font-size: 1.05rem;
+        border-radius: 12px;
+        padding: 0.55rem 1.5rem;
+        background-color: #007bff; /* Primary blue */
+        border-color: #007bff;
+        color: white;
+        box-shadow: 0 4px 18px rgba(0, 123, 255, 0.35);
+        transition: box-shadow 0.3s ease, background-color 0.3s ease;
+        user-select: none;
+    }
+
+        .btn-primary-add-product:hover {
+            background-color: #0056b3;
+            border-color: #004085;
+            box-shadow: 0 8px 30px rgba(0, 123, 255, 0.7);
+        }
+
+    /* Table Container */
+    .table-responsive {
+        border-color: #cce0ff !important; /* Light blue border for table container */
+        box-shadow: 0 1rem 3rem rgba(0, 123, 255, 0.1) !important;
+    }
+
+    /* Custom Table */
+    .custom-table {
+        width: 100%;
+        border-collapse: separate !important;
+        border-spacing: 0 0.8rem; /* Adjust row spacing */
+        background: #fff;
+        border-radius: 1rem; /* Overall table border radius */
+    }
+
+        /* Table Header */
+        .custom-table thead tr {
+            background: linear-gradient(135deg, #007bff, #6a00ff); /* Blue to purple gradient for header */
+            color: #fff;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em; /* Slightly less letter spacing */
+            border-radius: 1rem 1rem 0 0 !important; /* Rounded top corners */
+            box-shadow: 0 7px 22px rgba(0, 123, 255, 0.4); /* Blue shadow */
+        }
+
+        .custom-table thead th {
+            padding: 1.2rem 1.5rem;
+            vertical-align: middle;
+            user-select: none;
+            font-size: 1rem; /* Slightly smaller font for th */
+            border-right: 1.5px solid rgba(255,255,255,0.2);
+        }
+
+            .custom-table thead th:first-child {
+                border-top-left-radius: 1rem; /* Ensure first th has top-left radius */
+            }
+
+            .custom-table thead th:last-child {
+                border-right: none;
+                text-align: center;
+                border-top-right-radius: 1rem; /* Ensure last th has top-right radius */
+            }
+
+        /* Table Body Rows */
+        .custom-table tbody tr {
+            background: #fff; /* White background for rows */
+            border-radius: 0.75rem; /* Rounded corners for each row */
+            box-shadow: 0 3px 15px rgba(0, 123, 255, 0.08); /* Light blue shadow for rows */
+            transition: background-color 0.3s ease, box-shadow 0.3s ease, color 0.25s ease, transform 0.3s ease;
+            cursor: pointer;
+            font-size: 0.95rem; /* Slightly smaller font for td */
+            color: #495057; /* Darker gray for text */
+            user-select: none;
+        }
+
+            .custom-table tbody tr:hover {
+                background: #e6f2ff; /* Lighter blue on hover */
+                box-shadow: 0 12px 40px rgba(0, 123, 255, 0.25); /* Stronger blue shadow on hover */
+                color: #0056b3; /* Darker blue on hover */
+                transform: translateY(-4px);
+            }
+
+        /* Table Cells */
+        .custom-table td {
+            padding: 1rem 1.2rem;
+            vertical-align: middle;
+            border-right: 1px solid #e9ecef; /* Lighter border between cells */
+            font-weight: 500;
+            color: #495057;
+        }
+
+            .custom-table td:last-child {
+                border-right: none;
+                text-align: center;
+            }
+
+        .custom-table tbody tr:first-child td {
+            border-top: none; /* Remove top border of first row cells */
+        }
+
+        .custom-table tbody tr:last-child {
+            margin-bottom: 0; /* Remove extra margin at the bottom of the last row */
+        }
+
+
+    /* Product Thumbnail */
+    .product-thumbnail {
+        width: 80px;
+        height: 80px;
+        border-radius: 0.75rem; /* Consistent border radius */
+        object-fit: cover;
+        box-shadow: 0 4px 15px rgba(0, 123, 255, 0.15); /* Light blue shadow */
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        user-select: none;
+        border: 1px solid #dee2e6; /* subtle border */
+    }
+
+        .product-thumbnail:hover {
+            transform: scale(1.15);
+            box-shadow: 0 12px 40px rgba(0, 123, 255, 0.4);
+        }
+
+    /* No Image Placeholder */
+    .no-image-placeholder {
+        width: 80px;
+        height: 80px;
+        border-radius: 0.75rem;
+        background-color: #e0efff; /* Very light blue */
+        border: 2px dashed #a7d9f7; /* Lighter dashed blue border */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #007bff; /* Primary blue for icon */
+        font-size: 2rem;
+        user-select: none;
+        transition: background-color 0.3s ease, border-color 0.3s ease;
+    }
+
+        .no-image-placeholder:hover {
+            background-color: #cce0ff;
+            border-color: #007bff;
+            color: #0056b3;
+        }
+
+    /* Action Buttons in Table */
+    .btn-group .btn-action {
+        font-size: 0.85rem; /* Slightly smaller font for action buttons */
+        padding: 0.3rem 0.8rem; /* Smaller padding */
+        border-radius: 0.5rem; /* Consistent border radius */
+        display: flex;
+        align-items: center;
+        gap: 0.3rem;
+        font-weight: 600;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08); /* Lighter shadow for individual buttons */
+        transition: box-shadow 0.3s ease, background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
+        user-select: none;
+    }
+
+        .btn-group .btn-action:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+    /* Specific Button Colors and Effects */
+    .btn-info-custom {
+        background-color: #17a2b8; /* Bootstrap Info Blue */
+        border-color: #17a2b8;
+        color: #fff;
+    }
+
+        .btn-info-custom:hover {
+            background-color: #117a8b;
+            border-color: #0f6270;
+            color: #fff;
+        }
+
+    .btn-warning-custom {
+        background-color: #ffc107; /* Bootstrap Warning Yellow */
+        border-color: #ffc107;
+        color: #343a40; /* Dark text for contrast */
+    }
+
+        .btn-warning-custom:hover {
+            background-color: #e0a800;
+            border-color: #d39e00;
+            color: #343a40;
+        }
+
+    .btn-danger-custom {
+        background-color: #6f42c1; /* Purple for Delete */
+        border-color: #6f42c1;
+        color: #fff;
+    }
+
+        .btn-danger-custom:hover {
+            background-color: #502d92;
+            border-color: #442780;
+            color: #fff;
+        }
+
+    /* Icon + text in buttons */
+    .btn .bi {
+        font-size: 1rem; /* Slightly smaller icon size for action buttons */
+        line-height: 1;
+    }
+</style>
+
+@section Scripts {
+    <script>
+        document.querySelectorAll('.product-thumbnail, .custom-table tbody tr').forEach(element => {
+            element.addEventListener('click', function (event) {
+                // Prevent event from bubbling up if click is on an action button
+                if (event.target.closest('.btn-action')) {
+                    return;
+                }
+                const row = this.closest('tr');
+                if (row) {
+                    const displayLink = row.querySelector('a[asp-action="Display"]');
+                    if (displayLink) {
+                        window.location = displayLink.href;
+                    }
+                }
+            });
+        });
+    </script>
+}

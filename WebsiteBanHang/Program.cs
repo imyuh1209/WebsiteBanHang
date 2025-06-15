@@ -22,6 +22,7 @@ builder.Services.AddSession(options =>
 
 // Đăng ký HttpContextAccessor
 builder.Services.AddHttpContextAccessor();
+builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 
 // Đăng ký CartService
 builder.Services.AddScoped<WebsiteBanHang.Services.CartService>();
@@ -75,7 +76,7 @@ app.UseEndpoints(endpoints =>
         pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
     endpoints.MapControllerRoute(
         name: "default",
-        pattern: "{controller=Home}/{action=Index}/{id?}");
+        pattern: "{controller=Product}/{action=Index}/{id?}");
 });
 
 

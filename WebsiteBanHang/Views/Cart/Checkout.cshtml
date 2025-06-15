@@ -1,0 +1,251 @@
+﻿@model WebsiteBanHang.Models.ViewModels.CheckoutViewModel
+
+@{
+    ViewData["Title"] = "Thanh toán";
+}
+
+<div class="container mt-5">
+    <h2 class="text-center mb-4 page-title">Hoàn tất đơn hàng</h2>
+
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger" role="alert">
+            @TempData["ErrorMessage"]
+        </div>
+    }
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success" role="alert">
+            @TempData["SuccessMessage"]
+        </div>
+    }
+
+    <div class="row">
+        <div class="col-lg-8">
+            <div class="card shadow-sm mb-4">
+                <div class="card-header bg-primary text-white fs-5 fw-bold">Thông tin giao hàng</div>
+                <div class="card-body">
+                    <form asp-action="PlaceOrder" method="post" class="needs-validation" novalidate>
+                        @Html.AntiForgeryToken()
+
+                        <div class="mb-3">
+                            <label asp-for="FullName" class="form-label"></label>
+                            <input asp-for="FullName" class="form-control" />
+                            <span asp-validation-for="FullName" class="text-danger"></span>
+                        </div>
+                        <div class="mb-3">
+                            <label asp-for="Email" class="form-label"></label>
+                            <input asp-for="Email" type="email" class="form-control" />
+                            <span asp-validation-for="Email" class="text-danger"></span>
+                        </div>
+                        <div class="mb-3">
+                            <label asp-for="PhoneNumber" class="form-label"></label>
+                            <input asp-for="PhoneNumber" type="tel" class="form-control" />
+                            <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                        </div>
+                        <div class="mb-3">
+                            <label asp-for="ShippingAddress" class="form-label"></label>
+                            <textarea asp-for="ShippingAddress" class="form-control" rows="3"></textarea>
+                            <span asp-validation-for="ShippingAddress" class="text-danger"></span>
+                        </div>
+                        
+
+                        <h5 class="mt-4 mb-3">Phương thức thanh toán</h5>
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="radio" asp-for="PaymentMethod" id="cod" value="COD" checked />
+                            <label class="form-check-label" for="cod">Thanh toán khi nhận hàng (COD)</label>
+                        </div>
+                        <div class="form-check mb-3">
+                            <input class="form-check-input" type="radio" asp-for="PaymentMethod" id="bankTransfer" value="BankTransfer" />
+                            <label class="form-check-label" for="bankTransfer">Chuyển khoản ngân hàng</label>
+                        </div>
+                        @* Thêm các phương thức thanh toán khác nếu có *@
+                        <span asp-validation-for="PaymentMethod" class="text-danger d-block"></span>
+
+                        <button type="submit" class="btn btn-success btn-lg w-100 mt-4">
+                            <i class="bi bi-check-circle me-2"></i> Đặt hàng ngay
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="card shadow-sm">
+                <div class="card-header bg-info text-white fs-5 fw-bold">Tóm tắt đơn hàng</div>
+                <div class="card-body">
+                    <ul class="list-group list-group-flush mb-3">
+                        @foreach (var item in Model.CartItems)
+                        {
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                <div class="d-flex align-items-center">
+                                    @if (!string.IsNullOrEmpty(item.ImageUrl))
+                                    {
+                                        <img src="@item.ImageUrl" alt="@item.ProductName" class="checkout-item-thumbnail me-3" />
+                                    }
+                                    else
+                                    {
+                                        <div class="checkout-no-image-placeholder me-3">
+                                            <i class="bi bi-image"></i>
+                                        </div>
+                                    }
+                                    <div>
+                                        <h6 class="mb-0">@item.ProductName</h6>
+                                        <small class="text-muted">Số lượng: @item.Quantity</small>
+                                    </div>
+                                </div>
+                                <span class="fw-bold text-nowrap">@item.Total.ToString("C")</span>
+                            </li>
+                        }
+                    </ul>
+                    <div class="d-flex justify-content-between mb-2">
+                        <span>Tổng tiền hàng:</span>
+                        <span class="fw-bold">@Model.CartTotal.ToString("C")</span>
+                    </div>
+                    <div class="d-flex justify-content-between mb-2">
+                        <span>Phí vận chuyển:</span>
+                        <span class="fw-bold">@Model.ShippingFee.ToString("C")</span>
+                    </div>
+                    <div class="d-flex justify-content-between fw-bold fs-5 text-primary border-top pt-3 mt-3">
+                        <span>Tổng cộng:</span>
+                        <span>@Model.GrandTotal.ToString("C")</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script>
+        // Example of client-side validation using Bootstrap's built-in validation
+        (function () {
+            'use strict'
+
+            // Fetch all the forms we want to apply custom Bootstrap validation styles to
+            var forms = document.querySelectorAll('.needs-validation')
+
+            // Loop over them and prevent submission
+            Array.prototype.slice.call(forms)
+                .forEach(function (form) {
+                    form.addEventListener('submit', function (event) {
+                        if (!form.checkValidity()) {
+                            event.preventDefault()
+                            event.stopPropagation()
+                        }
+
+                        form.classList.add('was-validated')
+                    }, false)
+                })
+        })()
+    </script>
+}
+
+<style>
+    /* Custom styles for Checkout page */
+    body {
+        background-color: #f8faff;
+        color: #343a40;
+    }
+
+    .page-title {
+        font-size: 2.5rem;
+        font-weight: 800;
+        background: linear-gradient(45deg, #007bff, #6a00ff);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        user-select: none;
+        text-shadow: 0 4px 10px rgba(0, 123, 255, 0.2);
+    }
+
+    .card {
+        border: 1px solid #cce0ff;
+        border-radius: 0.75rem;
+        overflow: hidden;
+    }
+
+    .card-header {
+        background-color: #007bff; /* Primary blue */
+        color: white;
+        font-weight: bold;
+        border-bottom: none;
+        padding: 1rem 1.5rem;
+    }
+
+        .card-header.bg-info {
+            background-color: #17a2b8 !important; /* Info blue for summary */
+        }
+
+    .form-label {
+        font-weight: 600;
+        color: #495057;
+    }
+
+    .form-control {
+        border-radius: 0.5rem;
+        border: 1px solid #ced4da;
+        padding: 0.75rem 1rem;
+    }
+
+        .form-control:focus {
+            border-color: #80bdff;
+            box-shadow: 0 0 0 0.25rem rgba(0, 123, 255, 0.25);
+        }
+
+    .btn-success {
+        background-color: #28a745;
+        border-color: #28a745;
+        font-weight: 700;
+        border-radius: 0.75rem;
+        padding: 0.8rem 1.5rem;
+        transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+        .btn-success:hover {
+            background-color: #218838;
+            border-color: #1e7e34;
+            box-shadow: 0 0.5rem 1rem rgba(40, 167, 69, 0.3);
+        }
+
+    .checkout-item-thumbnail {
+        width: 60px;
+        height: 60px;
+        object-fit: cover;
+        border-radius: 0.5rem;
+        border: 1px solid #e9ecef;
+    }
+
+    .checkout-no-image-placeholder {
+        width: 60px;
+        height: 60px;
+        border-radius: 0.5rem;
+        background-color: #e9f5ff;
+        border: 2px dashed #a7d9f7;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #007bff;
+        font-size: 1.5rem;
+    }
+
+    .list-group-item {
+        background-color: transparent;
+        border-color: rgba(0,0,0,.05);
+        padding: 0.75rem 0;
+    }
+
+    .list-group-flush .list-group-item:first-child {
+        border-top: 0;
+    }
+
+    .list-group-flush .list-group-item:last-child {
+        border-bottom: 0;
+    }
+
+    .text-primary {
+        color: #007bff !important;
+    }
+</style>

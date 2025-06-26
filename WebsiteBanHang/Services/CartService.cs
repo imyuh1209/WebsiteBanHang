@@ -35,26 +35,22 @@ namespace WebsiteBanHang.Services
         public void AddToCart(Product product, int quantity)
         {
             var cart = GetCart();
-            var existingItem = cart.FirstOrDefault(item => item.ProductId == product.Id);
-
-            if (existingItem != null)
+            var item = cart.FirstOrDefault(i => i.ProductId == product.Id);
+            if (item != null)
             {
-                // Nếu sản phẩm đã có trong giỏ hàng, tăng số lượng
-                existingItem.Quantity += quantity;
+                item.Quantity += quantity;
             }
             else
             {
-                // Nếu sản phẩm chưa có trong giỏ hàng, thêm mới
                 cart.Add(new CartItem
                 {
                     ProductId = product.Id,
                     ProductName = product.Name,
+                    ImageUrl = product.ImageUrl,
                     Price = product.Price,
-                    Quantity = quantity,
-                    ImageUrl = product.ImageUrl
+                    Quantity = quantity
                 });
             }
-
             SaveCart(cart);
         }
 

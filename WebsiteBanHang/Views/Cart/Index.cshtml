@@ -2,105 +2,100 @@
 
 @{
     ViewData["Title"] = "Giỏ hàng";
+    var total = Model?.Sum(i => i.Price * i.Quantity) ?? 0;
 }
 
-<div class="container mt-5">
-    <div class="card shadow-lg rounded-4 overflow-hidden border border-primary">
-        <div class="card-header bg-primary-gradient text-white d-flex justify-content-between align-items-center">
-            <h2 class="mb-0 fw-bold">Giỏ hàng của bạn</h2>
-            <a asp-controller="Product" asp-action="Index" class="btn btn-outline-light btn-continue-shopping">
-                <i class="bi bi-arrow-left me-2"></i> Tiếp tục mua sắm
-            </a>
-        </div>
-        <div class="card-body p-4">
-            @if (Model != null && Model.Any())
-            {
-                <div class="table-responsive">
-                    <table class="table table-hover align-middle cart-table">
-                        <thead class="table-primary-light">
-                            <tr>
-                                <th scope="col" width="100">Hình ảnh</th>
-                                <th scope="col">Sản phẩm</th>
-                                <th scope="col" class="text-center">Đơn giá</th>
-                                <th scope="col" class="text-center">Số lượng</th>
-                                <th scope="col" class="text-center">Thành tiền</th>
-                                <th scope="col" class="text-center">Thao tác</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var item in Model)
-                            {
-                                <tr>
-                                    <td>
-                                        @if (!string.IsNullOrEmpty(item.ImageUrl))
-                                        {
-                                            <img src="@item.ImageUrl" alt="@item.ProductName" class="img-thumbnail cart-item-thumbnail" />
-                                        }
-                                        else
-                                        {
-                                            <div class="bg-light d-flex align-items-center justify-content-center no-image-cart" style="width: 80px; height: 80px;">
-                                                <i class="bi bi-image text-muted"></i>
-                                            </div>
-                                        }
-                                    </td>
-                                    <td>
-                                        <h5 class="fw-semibold mb-1">@item.ProductName</h5>
-                                    </td>
-                                    <td class="text-center fw-semibold text-primary">@item.Price.ToString("C")</td>
-                                    <td class="text-center">
-                                        <form asp-action="UpdateQuantity" method="post" class="d-flex align-items-center justify-content-center">
-                                            <input type="hidden" name="productId" value="@item.ProductId" />
-                                            <div class="input-group quantity-input-group" style="width: 120px;">
-                                                <button class="btn btn-outline-secondary btn-qty-minus" type="button" onclick="decrementQuantity(this)">
-                                                    <i class="bi bi-dash"></i>
-                                                </button>
-                                                <input type="number" name="quantity" class="form-control text-center" value="@item.Quantity" min="1" max="100" onchange="this.form.submit()" />
-                                                <button class="btn btn-outline-secondary btn-qty-plus" type="button" onclick="incrementQuantity(this)">
-                                                    <i class="bi bi-plus"></i>
-                                                </button>
-                                            </div>
-                                        </form>
-                                    </td>
-                                    <td class="text-center fw-bold text-total">@((item.Price * item.Quantity).ToString("C"))</td>
-                                    <td class="text-center">
-                                        <form asp-action="RemoveFromCart" method="post">
-                                            <input type="hidden" name="productId" value="@item.ProductId" />
-                                            <button type="submit" class="btn btn-danger btn-sm btn-remove-item">
-                                                <i class="bi bi-trash"></i> Xóa
-                                            </button>
-                                        </form>
-                                    </td>
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <div class="card shadow border-0 rounded-4">
+                <div class="card-header bg-gradient-primary text-white d-flex justify-content-between align-items-center py-4 px-4">
+                    <h2 class="mb-0 fw-bold"><i class="bi bi-cart4 me-2"></i>Giỏ hàng của bạn</h2>
+                    <a asp-controller="Product" asp-action="Index" class="btn btn-outline-light rounded-pill px-4">
+                        <i class="bi bi-arrow-left me-2"></i> Tiếp tục mua sắm
+                    </a>
                 </div>
-                <div class="card mt-4 shadow-sm total-summary-card">
-                    <div class="card-body">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <h4 class="mb-0 text-dark">Tổng tiền:</h4>
-                            <h4 class="mb-0 text-primary fw-bold total-amount">@Model.Sum(i => i.Price * i.Quantity).ToString("C")</h4>
+                <div class="card-body p-4">
+                    @if (Model != null && Model.Any())
+                    {
+                        <div class="table-responsive">
+                            <table class="table align-middle text-center cart-table mb-0">
+
+                                <tbody>
+                                    @foreach (var item in Model)
+                                    {
+                                        <tr>
+                                            <td>
+                                                @if (!string.IsNullOrEmpty(item.ImageUrl))
+                                                {
+                                                    <img src="@item.ImageUrl" alt="@item.ProductName" class="img-thumbnail" style="width: 70px; height: 70px; object-fit: contain;" />
+                                                }
+                                                else
+                                                {
+                                                    <div class="d-flex align-items-center justify-content-center bg-light border rounded" style="width: 70px; height: 70px;">
+                                                        <i class="bi bi-image text-muted fs-2"></i>
+                                                    </div>
+                                                }
+                                            </td>
+                                            <td>
+                                                <div class="fw-semibold">@item.ProductName</div>
+                                            </td>
+                                            <td class="text-primary fw-bold">@item.Price.ToString("C")</td>
+                                            <td>
+                                                <form asp-action="UpdateQuantity" method="post" class="d-flex justify-content-center align-items-center gap-2">
+                                                    <input type="hidden" name="productId" value="@item.ProductId" />
+                                                    <button type="button" class="btn btn-outline-secondary btn-sm px-2" onclick="decrementQuantity(this)">
+                                                        <i class="bi bi-dash"></i>
+                                                    </button>
+                                                    <input type="number" name="quantity" class="form-control text-center qty-input" value="@item.Quantity" min="1" max="100" onchange="this.form.submit()" style="width: 55px;" />
+                                                    <button type="button" class="btn btn-outline-secondary btn-sm px-2" onclick="incrementQuantity(this)">
+                                                        <i class="bi bi-plus"></i>
+                                                    </button>
+                                                </form>
+                                            </td>
+                                            <td class="fw-bold text-success">@((item.Price * item.Quantity).ToString("C"))</td>
+                                            <td>
+                                                <form asp-action="RemoveFromCart" method="post">
+                                                    <input type="hidden" name="productId" value="@item.ProductId" />
+                                                    <button type="submit" class="btn btn-danger btn-sm rounded-pill px-3">
+                                                        <i class="bi bi-trash"></i> Xóa
+                                                    </button>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
                         </div>
-                    </div>
+                        <div class="row mt-4">
+                            <div class="col-md-6 col-lg-4 ms-auto">
+                                <div class="card border-0 shadow-sm rounded-3">
+                                    <div class="card-body">
+                                        <div class="d-flex justify-content-between align-items-center mb-2">
+                                            <span class="fs-5 fw-semibold">Tổng tiền:</span>
+                                            <span class="fs-4 fw-bold text-primary">@total.ToString("C")</span>
+                                        </div>
+                                        <a asp-controller="Cart" asp-action="Checkout" class="btn btn-primary btn-lg w-100 mt-3 rounded-pill">
+                                            <i class="bi bi-credit-card me-2"></i> Thanh toán
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="text-center py-5">
+                            <i class="bi bi-cart-x" style="font-size: 5rem; color: #a7d9f7;"></i>
+                            <h3 class="mt-4 text-secondary">Giỏ hàng của bạn đang trống</h3>
+                            <p class="text-muted mb-4">Hãy thêm sản phẩm vào giỏ hàng để tiếp tục mua sắm</p>
+                            <a asp-controller="Product" asp-action="Index" class="btn btn-primary btn-lg rounded-pill px-4">
+                                <i class="bi bi-shop me-2"></i> Tiếp tục mua sắm
+                            </a>
+                        </div>
+                    }
                 </div>
-                <div class="d-flex justify-content-end mt-4">
-                    @* ****** THAY ĐỔI Ở ĐÂY: Dùng thẻ <a> thay vì <form> để GET request ****** *@
-                    <a asp-controller="Cart" asp-action="Checkout" class="btn btn-primary btn-lg btn-checkout">
-                        <i class="bi bi-credit-card me-2"></i> Thanh toán
-                    </a>
-                </div>
-            }
-            else
-            {
-                <div class="text-center py-5 empty-cart-message">
-                    <i class="bi bi-cart-x" style="font-size: 5rem; color: #a7d9f7;"></i>
-                    <h3 class="mt-4 text-secondary">Giỏ hàng của bạn đang trống</h3>
-                    <p class="text-muted mb-4">Hãy thêm sản phẩm vào giỏ hàng để tiếp tục mua sắm</p>
-                    <a asp-controller="Product" asp-action="Index" class="btn btn-primary btn-lg">
-                        <i class="bi bi-shop me-2"></i> Tiếp tục mua sắm
-                    </a>
-                </div>
-            }
+            </div>
         </div>
     </div>
 </div>
@@ -109,177 +104,49 @@
     <script>
         function incrementQuantity(button) {
             const input = button.parentNode.querySelector('input[type="number"]');
-            if (input.value < parseInt(input.max)) {
+            if (parseInt(input.value) < parseInt(input.max)) {
                 input.value = parseInt(input.value) + 1;
-                button.form.submit();
+                input.form.submit();
             }
         }
-
         function decrementQuantity(button) {
             const input = button.parentNode.querySelector('input[type="number"]');
-            if (input.value > parseInt(input.min)) {
+            if (parseInt(input.value) > parseInt(input.min)) {
                 input.value = parseInt(input.value) - 1;
-                button.form.submit();
+                input.form.submit();
             }
         }
     </script>
 }
 
 <style>
-    /* ... (CSS của bạn giữ nguyên) ... */
-    body {
-        background-color: #f8faff; /* Consistent light blue background */
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    .bg-gradient-primary {
+        background: linear-gradient(135deg, #007bff, #6a00ff) !important;
     }
 
-    /* Card general styling */
-    .card.shadow-lg {
-        box-shadow: 0 1rem 3rem rgba(0, 123, 255, 0.15) !important; /* Lighter blue shadow */
+    .cart-table th, .cart-table td {
+        vertical-align: middle !important;
     }
 
-    .card.border-primary {
-        border-color: #007bff !important; /* Primary blue border */
-    }
-
-    /* Card Header - Blue Gradient */
-    .bg-primary-gradient {
-        background: linear-gradient(135deg, #007bff, #6a00ff); /* Blue to purple gradient */
-        border-bottom: 2px solid rgba(0, 0, 0, 0.1);
-        padding: 1.5rem 2rem;
-    }
-
-    /* Continue shopping button in header */
-    .btn-continue-shopping {
+    .cart-table th {
+        font-size: 1rem;
         font-weight: 600;
-        font-size: 0.95rem;
-        padding: 0.5rem 1.25rem;
-        border-radius: 2rem;
-        border-width: 2px;
-        transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.25s ease;
-        border-color: #ffffff !important;
+        color: #0056b3;
+        background: #eaf4fd;
+        border-bottom: 2px solid #a7d9f7;
     }
 
-        .btn-continue-shopping:hover {
-            background-color: #0056b3 !important;
-            color: #fff !important;
-            box-shadow: 0 4px 15px rgba(0, 86, 179, 0.65);
-            border-color: transparent !important;
-        }
-
-    /* Table Header - Lighter Primary Blue */
-    .table-primary-light {
-        background-color: #eaf4fd; /* Very light blue for table header */
-        color: #004085; /* Dark blue text */
-        font-weight: 600;
+    .cart-table td {
+        font-size: 1.05rem;
     }
 
-        .table-primary-light th {
-            border-bottom: 2px solid #a7d9f7; /* Light blue border */
-            padding: 1rem 0.75rem;
-        }
-
-    /* Cart Item Thumbnail */
-    .cart-item-thumbnail {
-        border-radius: 0.5rem;
-        border: 1px solid #d1e7fd; /* Light blue border */
-        box-shadow: 0 2px 8px rgba(0, 123, 255, 0.1);
-        transition: transform 0.2s ease;
+    .qty-input::-webkit-inner-spin-button,
+    .qty-input::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
     }
 
-        .cart-item-thumbnail:hover {
-            transform: scale(1.05);
-        }
-
-    /* No image placeholder in cart */
-    .no-image-cart {
-        border-radius: 0.5rem;
-        border: 1px dashed #a7d9f7;
-        color: #a7d9f7 !important; /* Lighter blue for icon */
-        font-size: 2rem;
-    }
-
-    /* Quantity input group */
-    .quantity-input-group .form-control {
-        border-color: #a7d9f7; /* Light blue border */
-        color: #004085; /* Dark blue text */
-        font-weight: 600;
-    }
-
-    .quantity-input-group .btn-outline-secondary {
-        border-color: #a7d9f7;
-        color: #007bff; /* Primary blue icon */
-        transition: background-color 0.2s ease, color 0.2s ease;
-    }
-
-        .quantity-input-group .btn-outline-secondary:hover {
-            background-color: #007bff;
-            color: #fff;
-            border-color: #007bff;
-        }
-
-    /* Total amount display */
-    .text-total {
-        color: #007bff !important; /* Primary blue for total price of item */
-        font-size: 1.15rem;
-    }
-
-    /* Remove button */
-    .btn-remove-item {
-        background-color: #dc3545; /* Bootstrap danger red */
-        border-color: #dc3545;
-        font-weight: 500;
-        transition: background-color 0.2s ease, border-color 0.2s ease;
-    }
-
-        .btn-remove-item:hover {
-            background-color: #c82333; /* Darker red on hover */
-            border-color: #bd2130;
-        }
-
-    /* Total summary card */
-    .total-summary-card .card-body {
-        background-color: #eaf4fd; /* Light blue background for summary */
-        border-top: 2px solid #a7d9f7; /* Light blue border top */
-    }
-
-    .total-summary-card h4.text-dark {
-        color: #004085 !important; /* Dark blue for "Tổng tiền" text */
-    }
-
-    .total-summary-card h4.total-amount {
-        color: #007bff !important; /* Primary blue for actual total amount */
-        font-size: 1.75rem;
-    }
-
-    /* Checkout button */
-    .btn-checkout {
-        background-color: #007bff; /* Primary blue */
-        border-color: #007bff;
-        padding: 0.75rem 2rem;
-        font-size: 1.2rem;
-        font-weight: 600;
-        border-radius: 0.75rem;
-        transition: all 0.3s ease;
-        box-shadow: 0 5px 15px rgba(0, 123, 255, 0.3);
-    }
-
-        .btn-checkout:hover {
-            background-color: #0056b3;
-            border-color: #0056b3;
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(0, 123, 255, 0.5);
-        }
-
-    /* Empty cart message */
-    .empty-cart-message i.bi-cart-x {
-        color: #a7d9f7 !important; /* Light blue for empty cart icon */
-    }
-
-    .empty-cart-message .text-secondary {
-        color: #336699 !important; /* Medium blue for empty cart heading */
-    }
-
-    .empty-cart-message .text-muted {
-        color: #6a8ba8 !important; /* Desaturated blue for empty cart text */
+    .qty-input {
+        -moz-appearance: textfield;
     }
 </style>

@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using WebsiteBanHang.Models;
 using WebsiteBanHang.Repositories;
+using System.Globalization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -56,6 +57,9 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
+var cultureInfo = new CultureInfo("vi-VN");
+CultureInfo.DefaultThreadCurrentCulture = cultureInfo;
+CultureInfo.DefaultThreadCurrentUICulture = cultureInfo;
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
@@ -64,7 +68,7 @@ app.UseRouting();
 
 app.UseSession();
 
-app.UseAuthentication();    
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapRazorPages();
@@ -73,11 +77,10 @@ app.UseEndpoints(endpoints =>
 {
     endpoints.MapControllerRoute(
         name: "Admin",
-        pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
+        pattern: "{area:exists}/{controller=Admin}/{action=Index}/{id?}");
     endpoints.MapControllerRoute(
         name: "default",
         pattern: "{controller=Product}/{action=Index}/{id?}");
 });
-
 
 app.Run();

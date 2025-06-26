@@ -9,5 +9,6 @@ namespace WebsiteBanHang.Repositories
         Task AddAsync(Category category);
         Task UpdateAsync(Category category);
         Task DeleteAsync(int id);
+        IEnumerable<Category> GetAll(); // Add this method to the interface
     }
 }

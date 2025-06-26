@@ -12,15 +12,12 @@ namespace WebsiteBanHang.Repositories
         }
         public async Task<IEnumerable<Product>> GetAllAsync()
         {
-            // return await _context.Products.ToListAsync();
             return await _context.Products
-            .Include(p => p.Category) // Include thông tin về category
-            .ToListAsync();
+                .Include(p => p.Category) // Include thông tin về category
+                .ToListAsync();
         }
         public async Task<Product> GetByIdAsync(int id)
         {
-            // return await _context.Products.FindAsync(id);
-            // lấy thông tin kèm theo category
             return await _context.Products.Include(p => p.Category).FirstOrDefaultAsync(p => p.Id == id);
         }
         public async Task AddAsync(Product product)
@@ -38,6 +35,24 @@ namespace WebsiteBanHang.Repositories
             var product = await _context.Products.FindAsync(id);
             _context.Products.Remove(product);
             await _context.SaveChangesAsync();
+        }
+
+        public IEnumerable<object> GetAll()
+        {
+            return _context.Products.ToList();
+        }
+
+        // Fix for CS0535: Implementing IProductRepository.GetById(int)
+        public object GetById(int productId)
+        {
+            return _context.Products.Include(p => p.Category).FirstOrDefault(p => p.Id == productId);
+        }
+
+        // Fix for CS0535: Implementing IProductRepository.Update(Product)
+        public void Update(Product product)
+        {
+            _context.Products.Update(product);
+            _context.SaveChanges();
         }
     }
 }

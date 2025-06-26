@@ -1,0 +1,41 @@
+﻿@model WebsiteBanHang.Models.Order
+
+@{
+    ViewData["Title"] = "Chi tiết đơn hàng";
+}
+
+<h2>Chi tiết đơn hàng #@Model.Id</h2>
+<p><strong>Ngày đặt:</strong> @Model.OrderDate.ToString("dd/MM/yyyy")</p>
+<p><strong>Trạng thái:</strong> @Model.Status</p>
+<p><strong>Tổng tiền:</strong> @Model.GrandTotal.ToString("c", System.Globalization.CultureInfo.GetCultureInfo("vi-VN"))</p>
+
+@if (Model.Status == "Pending" || Model.Status == "Chờ xử lý" || Model.Status == "Processing")
+{
+    <form asp-action="Cancel" asp-route-id="@Model.Id" method="post" onsubmit="return confirm('Bạn có chắc chắn muốn hủy đơn hàng này?');">
+        <button type="submit" class="btn btn-danger">Hủy đơn hàng</button>
+    </form>
+}
+
+<h4>Sản phẩm trong đơn</h4>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Tên sản phẩm</th>
+            <th>Số lượng</th>
+            <th>Đơn giá</th>
+            <th>Thành tiền</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.OrderItems)
+        {
+            <tr>
+                <td>@item.ProductName</td>
+                <td>@item.Quantity</td>
+                <td>@item.PriceAtOrder.ToString("C")</td>
+                <td>@(item.Quantity* item.PriceAtOrder)</td>
+            </tr>
+        }
+    </tbody>
+</table>
+<a asp-action="Index" class="btn btn-secondary mt-3">Quay lại</a>

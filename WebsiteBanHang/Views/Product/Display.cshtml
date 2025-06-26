@@ -23,6 +23,7 @@
                             @* Icon removed: <i class="bi bi-tag-fill me-3"></i> *@ @Model.Price.ToString("C")
                         </h3>
                     </div>
+                    <p><strong>Tồn kho:</strong> @Model.Stock</p>
                     <div class="description-section-custom">
                         <h5 class="mb-3 fw-semibold text-primary-dark d-flex align-items-center">
                             @* Icon removed: <i class="bi bi-info-circle me-3 fs-4"></i> *@ Mô tả sản phẩm
@@ -34,6 +35,46 @@
                         </div>
                     </div>
                     <div class="mt-4">
+                        <!-- Thông số kỹ thuật sản phẩm -->
+                        @if (!string.IsNullOrEmpty(Model.CPU) ||
+                                                !string.IsNullOrEmpty(Model.RAM) ||
+                                                !string.IsNullOrEmpty(Model.Storage) ||
+                                                !string.IsNullOrEmpty(Model.GPU) ||
+                                                !string.IsNullOrEmpty(Model.OperatingSystem) ||
+                                                !string.IsNullOrEmpty(Model.ScreenSize))
+                        {
+                            <div class="card mt-4">
+                                <div class="card-header bg-primary text-white fw-bold">
+                                    Thông số kỹ thuật
+                                </div>
+                                <ul class="list-group list-group-flush">
+                                    @if (!string.IsNullOrEmpty(Model.CPU))
+                                    {
+                                        <li class="list-group-item"><strong>CPU:</strong> @Model.CPU</li>
+                                    }
+                                    @if (!string.IsNullOrEmpty(Model.RAM))
+                                    {
+                                        <li class="list-group-item"><strong>RAM:</strong> @Model.RAM</li>
+                                    }
+                                    @if (!string.IsNullOrEmpty(Model.Storage))
+                                    {
+                                        <li class="list-group-item"><strong>Ổ cứng:</strong> @Model.Storage</li>
+                                    }
+                                    @if (!string.IsNullOrEmpty(Model.GPU))
+                                    {
+                                        <li class="list-group-item"><strong>Card đồ họa:</strong> @Model.GPU</li>
+                                    }
+                                    @if (!string.IsNullOrEmpty(Model.OperatingSystem))
+                                    {
+                                        <li class="list-group-item"><strong>Hệ điều hành:</strong> @Model.OperatingSystem</li>
+                                    }
+                                    @if (!string.IsNullOrEmpty(Model.ScreenSize))
+                                    {
+                                        <li class="list-group-item"><strong>Kích thước màn hình:</strong> @Model.ScreenSize</li>
+                                    }
+                                </ul>
+                            </div>
+                        }
                         <form asp-controller="Cart" asp-action="AddToCart" method="post">
                             <input type="hidden" name="productId" value="@Model.Id" />
                             <div class="d-flex align-items-center">
@@ -41,11 +82,17 @@
                                     <span class="input-group-text bg-light-blue-input">Số lượng</span>
                                     <input type="number" name="quantity" class="form-control form-control-custom-qty" value="1" min="1" max="100" />
                                 </div>
+                                <button type="submit" class="btn btn-primary-custom btn-lg buy-now-btn">
+                                    Mua ngay
+                                </button>
                                 <button type="submit" class="btn btn-primary-custom btn-lg add-to-cart-btn">
                                     Thêm vào giỏ hàng
                                 </button>
+                                
                             </div>
                         </form>
+
+
                     </div>
                 </div>
                 <div class="col-md-6 text-center">

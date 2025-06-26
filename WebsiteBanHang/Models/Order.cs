@@ -1,8 +1,8 @@
-﻿// Models/Order.cs
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
 
 namespace WebsiteBanHang.Models
 {
@@ -70,8 +70,13 @@ namespace WebsiteBanHang.Models
         // Mối quan hệ 1-nhiều với OrderItem
         public ICollection<OrderItem> OrderItems { get; set; } = new List<OrderItem>();
 
-        // Thêm trường User/CustomerId nếu bạn có hệ thống người dùng đăng nhập
-        // public string? UserId { get; set; }
+        // Tính tổng tiền động (nếu cần)
+        [NotMapped]
+        public decimal TotalAmount => OrderItems?.Sum(item => item.Quantity * item.PriceAtOrder) ?? 0;
+
+        public string? UserId { get; set; }
+
+        // Nếu muốn liên kết với ApplicationUser:
         // [ForeignKey("UserId")]
         // public ApplicationUser? User { get; set; }
     }

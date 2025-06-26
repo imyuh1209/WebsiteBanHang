@@ -16,6 +16,7 @@
                     <th>Mô tả</th>
                     <th>Ảnh</th>
                     <th>Danh mục</th>
+                    <th>Tồn kho</th>
                     <th>Thao tác</th>
                 </tr>
             </thead>
@@ -40,6 +41,7 @@
                             }
                         </td>
                         <td>@product.Category?.Name</td>
+                        <td>@product.Stock</td>
                         <td>
                             <div class="btn-group" role="group">
                                 <a asp-area="Admin" asp-action="Display" asp-route-id="@product.Id" class="btn btn-info-custom btn-sm btn-action">

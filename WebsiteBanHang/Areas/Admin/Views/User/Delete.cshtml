@@ -1,0 +1,17 @@
+﻿@model WebsiteBanHang.Models.UserWithRolesViewModel
+
+@{
+    ViewData["Title"] = "Xác nhận xoá người dùng";
+}
+
+<h3>Bạn có chắc chắn muốn xoá người dùng này?</h3>
+<div class="mb-3">
+    <strong>Tên đăng nhập:</strong> @Model.UserName <br />
+    <strong>Email:</strong> @Model.Email <br />
+    <strong>Vai trò:</strong> @string.Join(", ", Model.Roles)
+</div>
+<form asp-action="Delete" method="post">
+    <input type="hidden" asp-for="Id" />
+    <button type="submit" class="btn btn-danger">Xoá</button>
+    <a asp-action="Index" class="btn btn-secondary">Huỷ</a>
+</form>

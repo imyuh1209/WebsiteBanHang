@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     @* Bootstrap Icons CSS - REMOVED *@
     @* <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css"> *@
+    <link rel="icon" type="image/svg" href="~/admin.png" />
 </head>
 <body>
     <header>
@@ -29,7 +30,18 @@
                         <li class="nav-item">
                             <a class="nav-link @((ViewContext.RouteData.Values["controller"]?.ToString() == "Categories") ? "active" : "")" asp-area="Admin" asp-controller="Categories" asp-action="Index">Danh mục</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="Admin" asp-controller="User" asp-action="Index">Quản lý người dùng</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link @((ViewContext.RouteData.Values["controller"]?.ToString() == "Order") ? "active" : "")"
+                               asp-area="Admin" asp-controller="Order" asp-action="Index">Đơn hàng</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="Admin" asp-controller="Inventory" asp-action="Index">Quản lý kho</a>
+                        </li>
                     </ul>
+                    
                     <partial name="_LoginPartial" />
                 </div>
             </div>

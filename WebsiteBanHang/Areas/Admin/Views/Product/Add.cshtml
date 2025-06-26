@@ -39,10 +39,46 @@
                             <label asp-for="ImageUrl" class="form-label fw-semibold text-primary-dark">Ảnh sản phẩm</label>
                             <input type="file" asp-for="ImageUrl" class="form-control border-primary-custom" />
                         </div>
+                        <div class="form-group">
+                            <label asp-for="Stock" class="control-label">Số lượng trong kho</label>
+                            <input asp-for="Stock" class="form-control" />
+                            <span asp-validation-for="Stock" class="text-danger"></span>
+                        </div>
+                        <div class="mb-3">
+                            <label asp-for="CPU" class="form-label fw-semibold text-primary-dark">Bộ vi xử lý (CPU)</label>
+                            <input asp-for="CPU" class="form-control border-primary-custom" />
+                            <span asp-validation-for="CPU" class="text-danger small"></span>
+                        </div>
+                        <div class="mb-3">
+                            <label asp-for="RAM" class="form-label fw-semibold text-primary-dark">Bộ nhớ RAM</label>
+                            <input asp-for="RAM" class="form-control border-primary-custom" />
+                            <span asp-validation-for="RAM" class="text-danger small"></span>
+                        </div>
+                        <div class="mb-3">
+                            <label asp-for="Storage" class="form-label fw-semibold text-primary-dark">Ổ cứng</label>
+                            <input asp-for="Storage" class="form-control border-primary-custom" />
+                            <span asp-validation-for="Storage" class="text-danger small"></span>
+                        </div>
+                        <div class="mb-3">
+                            <label asp-for="GPU" class="form-label fw-semibold text-primary-dark">Card đồ họa (GPU)</label>
+                            <input asp-for="GPU" class="form-control border-primary-custom" />
+                            <span asp-validation-for="GPU" class="text-danger small"></span>
+                        </div>
+                        <div class="mb-3">
+                            <label asp-for="OperatingSystem" class="form-label fw-semibold text-primary-dark">Hệ điều hành</label>
+                            <input asp-for="OperatingSystem" class="form-control border-primary-custom" />
+                            <span asp-validation-for="OperatingSystem" class="text-danger small"></span>
+                        </div>
+                        <div class="mb-3">
+                            <label asp-for="ScreenSize" class="form-label fw-semibold text-primary-dark">Kích thước màn hình</label>
+                            <input asp-for="ScreenSize" class="form-control border-primary-custom" />
+                            <span asp-validation-for="ScreenSize" class="text-danger small"></span>
+                        </div>
                         <div class="d-grid gap-2 d-md-flex justify-content-md-end">
                             <a asp-action="Index" class="btn btn-outline-secondary-custom fw-semibold">Quay lại</a>
                             <button type="submit" class="btn btn-primary-custom fw-semibold">Thêm sản phẩm</button>
                         </div>
+
                     </form>
                 </div>
             </div>

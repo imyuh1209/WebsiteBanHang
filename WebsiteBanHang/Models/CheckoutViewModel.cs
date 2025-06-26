@@ -45,7 +45,7 @@ namespace WebsiteBanHang.Models.ViewModels
 
         public List<CheckoutItemViewModel> CartItems { get; set; }
         public decimal CartTotal { get; set; }
-        public decimal ShippingFee { get; set; } = 2; // Ví dụ phí vận chuyển
+        public decimal ShippingFee { get; set; } = 30000; // Ví dụ phí vận chuyển
         public decimal GrandTotal => CartTotal + ShippingFee;
     }
 }

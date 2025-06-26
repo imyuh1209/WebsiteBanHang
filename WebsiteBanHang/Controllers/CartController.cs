@@ -3,6 +3,7 @@ using WebsiteBanHang.Models;
 using WebsiteBanHang.Models.ViewModels;
 using WebsiteBanHang.Repositories;
 using WebsiteBanHang.Services;
+using Microsoft.AspNetCore.Identity;
 using System.Linq;
 using System.Threading.Tasks;
 using System;
@@ -14,12 +15,18 @@ namespace WebsiteBanHang.Controllers
         private readonly IProductRepository _productRepository;
         private readonly CartService _cartService;
         private readonly IOrderRepository _orderRepository;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public CartController(IProductRepository productRepository, CartService cartService, IOrderRepository orderRepository)
+        public CartController(
+            IProductRepository productRepository,
+            CartService cartService,
+            IOrderRepository orderRepository,
+            UserManager<ApplicationUser> userManager)
         {
             _productRepository = productRepository;
             _cartService = cartService;
             _orderRepository = orderRepository;
+            _userManager = userManager;
         }
 
         public IActionResult Index()
@@ -38,12 +45,9 @@ namespace WebsiteBanHang.Controllers
                 return NotFound();
             }
 
-            // Đã bỏ kiểm tra tồn kho vì không quản lý StockQuantity nữa
             _cartService.AddToCart(product, quantity);
-
             TempData["SuccessMessage"] = $"{product.Name} đã được thêm vào giỏ hàng.";
-
-            return RedirectToAction("Display", "Product", new { id = productId });
+            return RedirectToAction("Index");
         }
 
         [HttpPost]
@@ -64,7 +68,6 @@ namespace WebsiteBanHang.Controllers
             }
             else
             {
-                // Đã bỏ kiểm tra tồn kho vì không quản lý StockQuantity nữa
                 _cartService.UpdateQuantity(productId, quantity);
                 TempData["SuccessMessage"] = "Số lượng sản phẩm đã được cập nhật.";
             }
@@ -94,7 +97,6 @@ namespace WebsiteBanHang.Controllers
             {
                 CartItems = checkoutItems,
                 CartTotal = checkoutItems.Sum(item => item.Total),
-                // Có thể điền trước thông tin người dùng nếu đã đăng nhập
             };
             return View(viewModel);
         }
@@ -120,10 +122,10 @@ namespace WebsiteBanHang.Controllers
             }).ToList();
             model.CartTotal = model.CartItems.Sum(item => item.Total);
 
-            
-
             try
             {
+                var user = await _userManager.GetUserAsync(User);
+
                 var order = new Order
                 {
                     CustomerFullName = model.FullName,
@@ -136,12 +138,12 @@ namespace WebsiteBanHang.Controllers
                     SubTotal = model.CartTotal,
                     ShippingFee = model.ShippingFee,
                     GrandTotal = model.GrandTotal,
-                    Status = "Pending"
+                    Status = "Pending",
+                    UserId = user?.Id // Gán UserId cho đơn hàng (nếu user đăng nhập)
                 };
 
                 foreach (var item in model.CartItems)
                 {
-                    // Không cần lấy product từ DB để kiểm tra tồn kho hoặc cập nhật nữa
                     order.OrderItems.Add(new OrderItem
                     {
                         ProductId = item.ProductId,
@@ -149,10 +151,6 @@ namespace WebsiteBanHang.Controllers
                         PriceAtOrder = item.Price,
                         Quantity = item.Quantity
                     });
-
-                    // Đã bỏ logic cập nhật StockQuantity
-                    // Nếu bạn có ProductRepository với UpdateAsync, bạn có thể xóa nó khỏi đây nếu không dùng nữa
-                    // Hoặc xóa hoàn toàn phương thức UpdateAsync khỏi ProductRepository nếu nó chỉ dùng cho StockQuantity
                 }
 
                 await _orderRepository.AddAsync(order);
@@ -164,7 +162,6 @@ namespace WebsiteBanHang.Controllers
             }
             catch (Exception ex)
             {
-                // Vẫn giữ lại phần xử lý lỗi chung
                 TempData["ErrorMessage"] = "Có lỗi xảy ra trong quá trình đặt hàng. Vui lòng thử lại sau.";
                 return View("Checkout", model);
             }
@@ -180,6 +177,21 @@ namespace WebsiteBanHang.Controllers
                 return RedirectToAction(nameof(Index));
             }
             return View(order);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> BuyNow(int productId, int quantity = 1)
+        {
+            var product = await _productRepository.GetByIdAsync(productId);
+            if (product == null)
+            {
+                TempData["ErrorMessage"] = "Sản phẩm không tồn tại.";
+                return NotFound();
+            }
+
+            _cartService.AddToCart(product, quantity);
+            TempData["SuccessMessage"] = $"{product.Name} đã được thêm vào giỏ hàng.";
+            return RedirectToAction("Index", new { id = productId });
         }
     }
 }

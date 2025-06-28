@@ -1,3 +1,4 @@
+// ✅ Program.cs (sửa cấu hình định tuyến cho Area và controller)
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using WebsiteBanHang.Models;
@@ -31,13 +32,13 @@ builder.Services.AddScoped<ICategoryRepository, EFCategoryRepository>();
 builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 builder.Services.AddScoped<CartService>();
 
-// 🔹 Cấu hình Identity (quản lý người dùng & vai trò)
+// 🔹 Cấu hình Identity
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddDefaultTokenProviders()
     .AddDefaultUI();
 
-// 🔹 Cấu hình đường dẫn khi chưa đăng nhập hoặc bị từ chối truy cập
+// 🔹 Cấu hình cookie
 builder.Services.ConfigureApplicationCookie(options =>
 {
     options.LoginPath = "/Identity/Account/Login";
@@ -67,17 +68,18 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
-app.UseSession(); // ✅ Giỏ hàng cần session
-app.UseAuthentication(); // ✅ Xác thực
-app.UseAuthorization();  // ✅ Phân quyền
+app.UseSession();
+app.UseAuthentication();
+app.UseAuthorization();
 
-app.MapRazorPages(); // Razor Pages (Identity UI)
+app.MapRazorPages();
 
+// ✅ Sửa route cho Area đúng chuẩn
 app.UseEndpoints(endpoints =>
 {
     endpoints.MapControllerRoute(
-        name: "Admin",
-        pattern: "{area:exists}/{controller=Admin}/{action=Index}/{id?}");
+        name: "areas",
+        pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
 
     endpoints.MapControllerRoute(
         name: "default",

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿// ✅ ProductController.cs (Admin Area)
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using WebsiteBanHang.Models;
@@ -24,7 +25,7 @@ namespace WebsiteBanHang.Areas.Admin.Controllers
             var products = await _productRepository.GetAllAsync();
             return View(products);
         }
-        [Authorize(Roles = SD.Role_Admin)]
+
         public async Task<IActionResult> Add()
         {
             var categories = await _categoryRepository.GetAllAsync();
@@ -68,7 +69,7 @@ namespace WebsiteBanHang.Areas.Admin.Controllers
             }
             return View(product);
         }
-        [Authorize(Roles = SD.Role_Admin)]
+
         public async Task<IActionResult> Update(int id)
         {
             var product = await _productRepository.GetByIdAsync(id);
@@ -113,8 +114,7 @@ namespace WebsiteBanHang.Areas.Admin.Controllers
             ViewBag.Categories = new SelectList(categories, "Id", "Name");
             return View(product);
         }
-       
-        [Authorize(Roles = SD.Role_Admin)]
+
         public async Task<IActionResult> Delete(int id)
         {
             var product = await _productRepository.GetByIdAsync(id);

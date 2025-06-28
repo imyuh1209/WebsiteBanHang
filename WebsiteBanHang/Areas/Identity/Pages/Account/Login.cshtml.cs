@@ -1,4 +1,5 @@
-﻿using System;
+﻿// ✅ Login.cshtml.cs (đã sửa hoàn chỉnh để redirect đúng và xử lý returnUrl)
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -6,7 +7,6 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
@@ -83,14 +83,13 @@ namespace WebsiteBanHang.Areas.Identity.Pages.Account
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User logged in.");
+                    var user = await _userManager.FindByEmailAsync(Input.Email);
 
-                    // Nếu returnUrl là trang chủ ("/"), có thể chuyển hướng theo role
-                    if (returnUrl == "/" || returnUrl == Url.Content("~/"))
+                    if (string.IsNullOrEmpty(returnUrl) || returnUrl == "/" || returnUrl == Url.Content("~/"))
                     {
-                        var user = await _userManager.FindByEmailAsync(Input.Email);
                         if (await _userManager.IsInRoleAsync(user, "Admin"))
                         {
-                            return RedirectToPage("/Admin/Product", new { area = "Admin" });
+                            return RedirectToAction("Index", "Product", new { area = "Admin" });
                         }
                         else
                         {
@@ -98,7 +97,6 @@ namespace WebsiteBanHang.Areas.Identity.Pages.Account
                         }
                     }
 
-                    // Ngược lại, quay về đúng trang người dùng định vào (Checkout,...)
                     return LocalRedirect(returnUrl);
                 }
 
@@ -117,7 +115,6 @@ namespace WebsiteBanHang.Areas.Identity.Pages.Account
                 return Page();
             }
 
-            // Nếu sai thông tin đăng nhập
             return Page();
         }
     }

@@ -1,4 +1,4 @@
-﻿// ✅ Login.cshtml.cs (đã sửa hoàn chỉnh để redirect đúng và xử lý returnUrl)
+﻿// ✅ Login.cshtml.cs (sửa lỗi redirect khi người dùng đăng nhập từ Razor Page Area)
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -85,19 +85,19 @@ namespace WebsiteBanHang.Areas.Identity.Pages.Account
                     _logger.LogInformation("User logged in.");
                     var user = await _userManager.FindByEmailAsync(Input.Email);
 
-                    if (string.IsNullOrEmpty(returnUrl) || returnUrl == "/" || returnUrl == Url.Content("~/"))
+                    if (!string.IsNullOrEmpty(returnUrl) && returnUrl != "/" && returnUrl != Url.Content("~/"))
                     {
-                        if (await _userManager.IsInRoleAsync(user, "Admin"))
-                        {
-                            return RedirectToAction("Index", "Product", new { area = "Admin" });
-                        }
-                        else
-                        {
-                            return RedirectToAction("Index", "Product");
-                        }
+                        return LocalRedirect(returnUrl);
                     }
 
-                    return LocalRedirect(returnUrl);
+                    if (await _userManager.IsInRoleAsync(user, "Admin"))
+                    {
+                        return RedirectToAction("Index", "Product", new { area = "Admin" });
+                    }
+                    else
+                    {
+                        return RedirectToAction("Index", "Product", new { area = "" });
+                    }
                 }
 
                 if (result.RequiresTwoFactor)

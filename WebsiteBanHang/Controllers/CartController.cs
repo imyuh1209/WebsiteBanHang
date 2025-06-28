@@ -4,6 +4,7 @@ using WebsiteBanHang.Models.ViewModels;
 using WebsiteBanHang.Repositories;
 using WebsiteBanHang.Services;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
 using System.Linq;
 using System.Threading.Tasks;
 using System;
@@ -74,6 +75,8 @@ namespace WebsiteBanHang.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        // ✅ Yêu cầu đăng nhập trước khi thanh toán
+        [Authorize]
         [HttpGet]
         public IActionResult Checkout()
         {

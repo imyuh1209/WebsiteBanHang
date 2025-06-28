@@ -4,96 +4,88 @@
     @if (TempData["SuccessMessage"] != null)
     {
         <div class="alert alert-success alert-dismissible fade show" role="alert">
-            @* Icon removed: <i class="bi bi-check-circle-fill me-2"></i> *@ @TempData["SuccessMessage"]
+            @TempData["SuccessMessage"]
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     }
-    <div class="card shadow-custom rounded-4 overflow-hidden">
-        <div class="card-header bg-primary-gradient d-flex justify-content-between align-items-center py-3 px-4">
+    <div class="card product-card-custom rounded-4 overflow-hidden">
+        <div class="card-header product-header-custom d-flex justify-content-between align-items-center py-3 px-4">
             <h2 class="mb-0 text-white fw-bold">@Model.Name</h2>
             <a asp-controller="Product" asp-action="Index" asp-area="" class="btn btn-outline-light btn-back-custom">
-                @* Icon removed: <i class="bi bi-arrow-left me-2"></i> *@ Trở về danh sách
+                Trở về danh sách
             </a>
         </div>
-        <div class="card-body p-5">
-            <div class="row g-5 align-items-center">
+        <div class="card-body p-4">
+            <div class="row g-4 align-items-center">
                 <div class="col-md-6">
-                    <div class="price-tag-custom mb-5">
+                    <div class="price-tag-custom mb-4">
                         <h3 class="fw-bold mb-0">
-                            @* Icon removed: <i class="bi bi-tag-fill me-3"></i> *@ @Model.Price.ToString("C")
+                            @Model.Price.ToString("C")
                         </h3>
                     </div>
-                    <p><strong>Tồn kho:</strong> @Model.Stock</p>
-                    <div class="description-section-custom">
-                        <h5 class="mb-3 fw-semibold text-primary-dark d-flex align-items-center">
-                            @* Icon removed: <i class="bi bi-info-circle me-3 fs-4"></i> *@ Mô tả sản phẩm
-                        </h5>
+                    <p class="mb-2"><strong>Kho:</strong> @Model.Stock</p>
+                    <div class="description-section-custom mb-4">
+                        <h5 class="mb-2 fw-semibold text-primary-dark">Mô tả sản phẩm</h5>
                         <div class="card bg-light-blue border-0 shadow-sm rounded-4">
-                            <div class="card-body fs-5 text-muted-custom">
+                            <div class="card-body fs-6 text-muted-custom">
                                 @Model.Description
                             </div>
                         </div>
                     </div>
-                    <div class="mt-4">
-                        <!-- Thông số kỹ thuật sản phẩm -->
-                        @if (!string.IsNullOrEmpty(Model.CPU) ||
-                                                !string.IsNullOrEmpty(Model.RAM) ||
-                                                !string.IsNullOrEmpty(Model.Storage) ||
-                                                !string.IsNullOrEmpty(Model.GPU) ||
-                                                !string.IsNullOrEmpty(Model.OperatingSystem) ||
-                                                !string.IsNullOrEmpty(Model.ScreenSize))
-                        {
-                            <div class="card mt-4">
-                                <div class="card-header bg-primary text-white fw-bold">
-                                    Thông số kỹ thuật
-                                </div>
-                                <ul class="list-group list-group-flush">
-                                    @if (!string.IsNullOrEmpty(Model.CPU))
-                                    {
-                                        <li class="list-group-item"><strong>CPU:</strong> @Model.CPU</li>
-                                    }
-                                    @if (!string.IsNullOrEmpty(Model.RAM))
-                                    {
-                                        <li class="list-group-item"><strong>RAM:</strong> @Model.RAM</li>
-                                    }
-                                    @if (!string.IsNullOrEmpty(Model.Storage))
-                                    {
-                                        <li class="list-group-item"><strong>Ổ cứng:</strong> @Model.Storage</li>
-                                    }
-                                    @if (!string.IsNullOrEmpty(Model.GPU))
-                                    {
-                                        <li class="list-group-item"><strong>Card đồ họa:</strong> @Model.GPU</li>
-                                    }
-                                    @if (!string.IsNullOrEmpty(Model.OperatingSystem))
-                                    {
-                                        <li class="list-group-item"><strong>Hệ điều hành:</strong> @Model.OperatingSystem</li>
-                                    }
-                                    @if (!string.IsNullOrEmpty(Model.ScreenSize))
-                                    {
-                                        <li class="list-group-item"><strong>Kích thước màn hình:</strong> @Model.ScreenSize</li>
-                                    }
-                                </ul>
+                    @if (!string.IsNullOrEmpty(Model.CPU) ||
+                                        !string.IsNullOrEmpty(Model.RAM) ||
+                                        !string.IsNullOrEmpty(Model.Storage) ||
+                                        !string.IsNullOrEmpty(Model.GPU) ||
+                                        !string.IsNullOrEmpty(Model.OperatingSystem) ||
+                                        !string.IsNullOrEmpty(Model.ScreenSize))
+                    {
+                        <div class="card mb-4">
+                            <div class="card-header bg-primary text-white fw-bold">
+                                Thông số kỹ thuật
                             </div>
-                        }
-                        <form asp-controller="Cart" asp-action="AddToCart" method="post">
-                            <input type="hidden" name="productId" value="@Model.Id" />
-                            <div class="d-flex align-items-center">
-                                <div class="input-group me-3" style="width: 150px;">
-                                    <span class="input-group-text bg-light-blue-input">Số lượng</span>
-                                    <input type="number" name="quantity" class="form-control form-control-custom-qty" value="1" min="1" max="100" />
-                                </div>
-                                <button type="submit" class="btn btn-primary-custom btn-lg buy-now-btn">
-                                    Mua ngay
-                                </button>
-                                <button type="submit" class="btn btn-primary-custom btn-lg add-to-cart-btn">
-                                    Thêm vào giỏ hàng
-                                </button>
-                                
+                            <ul class="list-group list-group-flush">
+                                @if (!string.IsNullOrEmpty(Model.CPU))
+                                {
+                                    <li class="list-group-item"><strong>CPU:</strong> @Model.CPU</li>
+                                }
+                                @if (!string.IsNullOrEmpty(Model.RAM))
+                                {
+                                    <li class="list-group-item"><strong>RAM:</strong> @Model.RAM</li>
+                                }
+                                @if (!string.IsNullOrEmpty(Model.Storage))
+                                {
+                                    <li class="list-group-item"><strong>Ổ cứng:</strong> @Model.Storage</li>
+                                }
+                                @if (!string.IsNullOrEmpty(Model.GPU))
+                                {
+                                    <li class="list-group-item"><strong>Card đồ họa:</strong> @Model.GPU</li>
+                                }
+                                @if (!string.IsNullOrEmpty(Model.OperatingSystem))
+                                {
+                                    <li class="list-group-item"><strong>Hệ điều hành:</strong> @Model.OperatingSystem</li>
+                                }
+                                @if (!string.IsNullOrEmpty(Model.ScreenSize))
+                                {
+                                    <li class="list-group-item"><strong>Kích thước màn hình:</strong> @Model.ScreenSize</li>
+                                }
+                            </ul>
+                        </div>
+                    }
+                    <form asp-controller="Cart" asp-action="AddToCart" method="post">
+                        <input type="hidden" name="productId" value="@Model.Id" />
+                        <div class="d-flex align-items-center">
+                            <div class="input-group me-3" style="width: 140px;">
+                                <span class="input-group-text bg-light-blue-input">Số lượng</span>
+                                <input type="number" name="quantity" class="form-control form-control-custom-qty" value="1" min="1" max="100" />
                             </div>
-                        </form>
-
-
-                    </div>
+                            <button type="submit" class="btn btn-primary-custom btn-sm me-2">
+                                Mua ngay
+                            </button>
+                            <button type="submit" class="btn btn-outline-primary btn-sm">
+                                Thêm vào giỏ hàng
+                            </button>
+                        </div>
+                    </form>
                 </div>
                 <div class="col-md-6 text-center">
                     @if (!string.IsNullOrEmpty(Model.ImageUrl))
@@ -102,13 +94,12 @@
                             <img src="@Model.ImageUrl"
                                  alt="Product Image"
                                  class="img-fluid"
-                                 style="max-width: 100%; max-height: 420px; object-fit: contain;" />
+                                 style="max-width: 100%; max-height: 400px; object-fit: contain;" />
                         </div>
                     }
                     else
                     {
                         <div class="no-image-placeholder-custom p-5 rounded-4 border border-info-subtle">
-                            @* Icon removed: <i class="bi bi-image text-info-light" style="font-size: 5rem;"></i> *@
                             <p class="text-info-secondary mt-3 fs-5 fw-medium">Chưa có ảnh</p>
                         </div>
                     }
@@ -120,200 +111,134 @@
 
 <style>
     body {
+        background-color: #f8faff;
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        background-color: #f8faff; /* Consistent light blue background */
-        color: #343a40; /* Default text color */
+        color: #343a40;
     }
 
-    /* Card general styling */
-    .shadow-custom {
-        box-shadow: 0 1rem 3rem rgba(0, 123, 255, 0.15) !important; /* Lighter blue shadow */
-        border-radius: 1.5rem !important;
-        border: 1px solid #cce0ff !important; /* Light blue border */
-        background: #fff; /* White background for card body */
-        transition: box-shadow 0.3s ease;
+    .product-card-custom {
+        border-radius: 1.25rem;
+        border: 1px solid #e3e8f0;
+        background: #fff;
+        box-shadow: 0 8px 32px rgba(0, 123, 255, 0.10);
     }
 
-        .shadow-custom:hover {
-            box-shadow: 0 1.5rem 4rem rgba(0, 123, 255, 0.25) !important; /* Slightly more prominent shadow on hover */
-        }
-
-    /* Card Header */
-    .bg-primary-gradient {
-        background: linear-gradient(45deg, #007bff, #6a00ff) !important; /* Blue to purple gradient for header */
-        border-radius: 1.5rem 1.5rem 0 0 !important;
-        padding: 1.5rem 2.5rem !important; /* Adjusted padding */
-        box-shadow: inset 0 -4px 10px rgba(0, 0, 0, 0.15);
+    .product-header-custom {
+        background: linear-gradient(45deg, #007bff, #6a00ff);
+        border-radius: 1.25rem 1.25rem 0 0;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.07);
     }
 
-    .card-header h2 {
-        font-size: 2rem; /* Slightly smaller for balance */
-        user-select: none;
-        letter-spacing: 0.03em; /* Adjusted letter spacing */
-    }
-
-    /* Back to List Button */
     .btn-back-custom {
         font-weight: 600;
-        font-size: 0.95rem; /* Slightly smaller font */
-        padding: 0.5rem 1.25rem; /* Adjusted padding */
-        border-radius: 2rem;
+        font-size: 0.95rem;
+        padding: 0.45rem 1.1rem;
+        border-radius: 1.5rem;
         border-width: 2px;
-        transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.25s ease;
-        border-color: #ffffff !important; /* Keep white border */
-        color: #fff; /* White text */
+        color: #fff;
+        border-color: #fff !important;
+        transition: 0.3s;
     }
 
         .btn-back-custom:hover {
-            background-color: #0056b3 !important; /* Darker blue on hover */
-            color: #fff !important;
-            box-shadow: 0 6px 20px rgba(0, 86, 179, 0.65);
-            border-color: transparent !important;
+            background-color: #0056b3 !important;
+            box-shadow: 0 6px 20px rgba(0, 86, 179, 0.25);
         }
 
-    /* Price tag */
     .price-tag-custom {
-        background: linear-gradient(135deg, #a7d9f7, #6bb9f0); /* Lighter blue to cyan gradient */
-        padding: 20px 25px; /* Adjusted padding */
-        border-radius: 1.25rem; /* Slightly smaller radius */
-        color: #004085; /* Darker blue for text */
-        box-shadow: 0 8px 25px rgba(107, 185, 240, 0.5);
-        user-select: none;
-        font-size: 1.8rem; /* Adjusted font size */
-        display: inline-flex;
-        align-items: center;
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        background: linear-gradient(135deg, #e3f0ff, #b6d0ff);
+        padding: 16px 22px;
+        border-radius: 1rem;
+        color: #004085;
+        box-shadow: 0 4px 16px rgba(107, 185, 240, 0.18);
+        font-size: 1.5rem;
+        display: inline-block;
     }
 
-        .price-tag-custom:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 12px 35px rgba(107, 185, 240, 0.7);
-        }
-
-    /* Icon removed, so no need for i styles related to margin/filter */
-    /* .price-tag-custom i {
-                font-size: 2.1rem;
-                margin-right: 0.8rem;
-                filter: drop-shadow(0 2px 2px rgba(0, 64, 133, 0.7));
-            } */
-
-    /* Description section */
     .text-primary-dark {
-        color: #0056b3 !important; /* Darker blue for description heading */
-        font-size: 1.15rem; /* Adjusted font size */
+        color: #0056b3;
     }
 
     .description-section-custom .card {
-        background: #eaf4fd; /* Very light blue for description card */
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background: #f4f8fd;
+        border: 1px solid #e3e8f0;
+        color: #4a4a4a;
         font-weight: 500;
-        letter-spacing: 0.02em;
         line-height: 1.6;
-        color: #4a4a4a; /* Slightly darker text for readability */
-        border: 1px solid #cce0ff !important; /* Light blue border for description card */
     }
 
     .text-muted-custom {
-        color: #5a6268 !important; /* Slightly darker muted color */
+        color: #5a6268;
     }
 
-    /* Quantity input */
-    .input-group-text.bg-light-blue-input {
-        background-color: #eaf4fd; /* Light blue background for input group text */
-        border-color: #cce0ff;
-        color: #336699; /* Medium blue text */
-        font-weight: 500;
+    .bg-light-blue-input {
+        background-color: #f4f8fd;
+        border-color: #e3e8f0;
+        color: #336699;
     }
 
     .form-control-custom-qty {
-        border-color: #cce0ff; /* Light blue border for input */
+        border-color: #e3e8f0;
         color: #343a40;
-        transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        transition: 0.3s;
     }
 
         .form-control-custom-qty:focus {
             border-color: #007bff;
-            box-shadow: 0 0 0 0.25rem rgba(0, 123, 255, 0.25);
-            outline: none;
+            box-shadow: 0 0 0 0.15rem rgba(0, 123, 255, 0.15);
         }
 
-    /* Add to cart button */
     .btn-primary-custom {
         background-color: #007bff !important;
         border-color: #007bff !important;
         font-weight: 600;
-        font-size: 1.1rem; /* Adjusted font size */
-        padding: 0.65rem 1.8rem; /* Adjusted padding */
+        padding: 0.5rem 1.2rem;
         border-radius: 0.5rem;
-        box-shadow: 0 5px 15px rgba(0, 123, 255, 0.3);
-        transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
+        box-shadow: 0 2px 8px rgba(0, 123, 255, 0.15);
+        transition: 0.2s;
     }
 
         .btn-primary-custom:hover {
             background-color: #0056b3 !important;
             border-color: #0056b3 !important;
-            box-shadow: 0 8px 25px rgba(0, 123, 255, 0.5);
-            transform: translateY(-2px);
+            box-shadow: 0 6px 18px rgba(0, 123, 255, 0.25);
+            transform: translateY(-1px);
         }
 
-    /* Product image container */
     .product-image-container-custom {
-        max-width: 420px;
-        margin: 0 auto;
-        border-radius: 1.5rem;
+        max-width: 380px;
+        margin: auto;
+        border-radius: 1.25rem;
         overflow: hidden;
-        background-color: #fff; /* White background for the image card */
-        border: 1px solid #cce0ff; /* Light blue border */
-        box-shadow: 0 10px 30px rgba(0, 123, 255, 0.2); /* Lighter blue shadow */
-        transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.4s ease;
-        cursor: pointer;
+        background: #fff;
+        border: 1px solid #e3e8f0;
+        box-shadow: 0 6px 24px rgba(0, 123, 255, 0.10);
+        transition: 0.3s;
     }
 
         .product-image-container-custom:hover {
-            transform: scale(1.03); /* Slightly less aggressive scale on hover */
-            box-shadow: 0 20px 55px rgba(0, 123, 255, 0.4); /* More prominent blue shadow on hover */
+            transform: scale(1.02);
+            box-shadow: 0 12px 32px rgba(0, 123, 255, 0.18);
         }
 
-    /* No image placeholder */
     .no-image-placeholder-custom {
-        background: #f0f7ff; /* Lighter blue for placeholder */
-        user-select: none;
-        border: 3px dashed #a7d9f7 !important; /* Light blue dashed border */
-        color: #007bff; /* Bootstrap primary blue for icon */
-        transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+        background: #f0f7ff;
+        border: 2px dashed #b6d0ff !important;
+        color: #007bff;
+        transition: 0.2s;
     }
 
         .no-image-placeholder-custom:hover {
-            background-color: #d1e7fd; /* Darker blue on hover */
-            border-color: #0056b3 !important; /* Darker dashed border on hover */
-            color: #004085; /* Darker blue for icon on hover */
+            background-color: #e3f0ff;
+            border-color: #0056b3 !important;
+            color: #004085;
         }
 
-    /* Icon removed, so no need for i styles related to font-size */
-    /* .text-info-light {
-            color: #8bbef8 !important;
-        } */
-
-    .text-info-secondary {
-        color: #6c757d !important; /* Standard muted text for placeholder */
-    }
-
-    /* Success Alert */
     .alert-success {
-        background-color: #d4edda; /* Light green Bootstrap success */
-        color: #155724; /* Dark green text */
+        background-color: #d4edda;
+        color: #155724;
         border-color: #c3e6cb;
         border-radius: 0.75rem;
-        box-shadow: 0 4px 12px rgba(40, 167, 69, 0.2);
-        padding: 1rem 1.5rem;
+        box-shadow: 0 4px 12px rgba(40, 167, 69, 0.12);
     }
-
-        /* Icon removed, so no need for i styles */
-        /* .alert-success .bi-check-circle-fill {
-                color: #28a745;
-            } */
-
-        .alert-success .btn-close {
-            color: #155724; /* Dark green for close button */
-        }
 </style>

@@ -24,5 +24,6 @@ namespace WebsiteBanHang.Models
                 .HasForeignKey(p => p.CategoryId);
         }
     }
+
  }
 

@@ -1,0 +1,88 @@
+﻿@{
+    ViewData["Title"] = "Thống kê sản phẩm và doanh thu theo ngày";
+    var productNames = (List<string>)ViewBag.ProductNames;
+    var productStocks = (List<int>)ViewBag.ProductStocks;
+    var revenueDays = (List<string>)ViewBag.RevenueDays;
+    var dailyRevenues = (List<decimal>)ViewBag.DailyRevenues;
+}
+
+<h2 class="mb-4">Thống kê sản phẩm</h2>
+
+<div class="mb-3">
+    <strong>Tổng số sản phẩm:</strong> @ViewBag.TotalProducts <br />
+    <strong>Tổng số lượng tồn kho:</strong> @ViewBag.TotalStock
+</div>
+
+<canvas id="productChart" height="250"></canvas>
+
+<h2 class="mt-5 mb-4">Thống kê doanh thu theo ngày</h2>
+
+<div class="mb-3">
+    <strong>Tổng doanh thu:</strong> @ViewBag.TotalRevenue.ToString("N0") VNĐ
+</div>
+
+<canvas id="dailyRevenueChart" height="250"></canvas>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        const productChart = new Chart(document.getElementById('productChart').getContext('2d'), {
+            type: 'bar',
+            data: {
+                labels: @Html.Raw(System.Text.Json.JsonSerializer.Serialize(productNames)),
+                datasets: [{
+                    label: 'Tồn kho',
+                    data: @Html.Raw(System.Text.Json.JsonSerializer.Serialize(productStocks)),
+                    backgroundColor: 'rgba(54, 162, 235, 0.6)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { display: true }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: { display: true, text: 'Số lượng tồn' }
+                    },
+                    x: {
+                        title: { display: true, text: 'Sản phẩm' }
+                    }
+                }
+            }
+        });
+
+        const dailyRevenueChart = new Chart(document.getElementById('dailyRevenueChart').getContext('2d'), {
+            type: 'line',
+            data: {
+                labels: @Html.Raw(System.Text.Json.JsonSerializer.Serialize(revenueDays)),
+                datasets: [{
+                    label: 'Doanh thu (VNĐ)',
+                    data: @Html.Raw(System.Text.Json.JsonSerializer.Serialize(dailyRevenues)),
+                    backgroundColor: 'rgba(75, 192, 192, 0.3)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    fill: true,
+                    tension: 0.3
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { display: true }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: { display: true, text: 'Doanh thu (VNĐ)' }
+                    },
+                    x: {
+                        title: { display: true, text: 'Ngày' }
+                    }
+                }
+            }
+        });
+    </script>
+}
